@@ -85,15 +85,15 @@ Check availability: [http://localhost:8080/v1/.well-known/ready](http://localhos
 Use the CLI to analyze a directory of files:
 
 ```bash
-python -m pattern_language_miner.cli analyze \\
-  --input-dir ./sample_docs \\
-  --output-dir ./patterns_output \\
+PYTHONPATH=src python3 -m pattern_language_miner.cli analyze \
+  --input-dir ./sample_docs analyze\
+  --output-dir ./patterns_output \
   --log-level DEBUG
 ```
 ## 🧪 Running Tests
 
 ```bash
-pytest tests/
+PYTHONPATH=src pytest
 ```
 ## 🛠 Maintenance
 
@@ -116,4 +116,4 @@ docker-compose.yml       # Weaviate container config
 ```
 ## 📄 License
 
-MIT License. © Your Company Name.
+MIT License. © Final State Press
