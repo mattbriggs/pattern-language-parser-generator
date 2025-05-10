@@ -1,4 +1,9 @@
+click
 nltk
-weaviate-client
 PyYAML
+tqdm
 pytest
+beautifulsoup4
+markdown
+weaviate-client
+sentence-transformers
