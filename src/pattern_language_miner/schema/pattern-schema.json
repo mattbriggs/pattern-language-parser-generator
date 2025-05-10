@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pattern",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "level",
+    "context",
+    "problem",
+    "solution",
+    "example",
+    "sources"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Reference to the schema file"
+    },
+    "id": {
+      "type": "string",
+      "description": "Unique identifier for the pattern"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the pattern"
+    },
+    "level": {
+      "type": "string",
+      "enum": ["chunk", "section", "document"],
+      "description": "Level of the pattern in the document hierarchy"
+    },
+    "context": {
+      "type": "string",
+      "description": "The situation in which this pattern appears"
+    },
+    "problem": {
+      "type": "string",
+      "description": "The problem this pattern addresses"
+    },
+    "solution": {
+      "type": "string",
+      "description": "The solution provided by the pattern"
+    },
+    "example": {
+      "type": "string",
+      "description": "An example usage of the pattern"
+    },
+    "sources": {
+      "type": "array",
+      "description": "Sources where the pattern was found",
+      "items": {
+        "type": "object",
+        "properties": {
+          "document": { "type": "string" },
+          "section": { "type": "string" }
+        },
+        "required": ["document"]
+      }
+    },
+    "subpatterns": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "superpattern": {
+      "type": "string"
+    },
+    "related_patterns": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "info_type": {
+      "type": "string",
+      "enum": ["concept", "procedure", "principle", "fact", "structure", "reference"]
+    },
+    "frequency": {
+      "type": "integer",
+      "minimum": 1
+    }
+  }
+}
