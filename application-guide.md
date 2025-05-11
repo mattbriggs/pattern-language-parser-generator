@@ -144,6 +144,36 @@ PYTHONPATH=src python3 -m pattern_language_miner.cli cluster \
 * You can change this to `problem`, `example`, or any other key in your YAML files.
 * Embedding is done locally using the `sentence-transformers` model `all-MiniLM-L6-v2`.
 
+### 📘 HOw to Summarize clusters
+
+#### Purpose
+
+Generate a human-readable Markdown summary from a `clustered_patterns.json` file created by the `cluster` command.
+
+#### Description
+
+The `summarize-clusters` command reads a JSON file that contains patterns grouped into clusters and produces a clean Markdown file. Each cluster is represented as a top-level heading, with the patterns listed beneath in a readable bullet list.
+
+#### Problem
+
+Clustered patterns are output as a raw JSON file, which is difficult for most users to interpret directly.
+
+#### Solution
+
+This command provides a clear, browsable Markdown summary to help users review and evaluate clustered pattern groupings.
+
+#### How to Use
+
+Run the following command after clustering is complete:
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli summarize-clusters \
+  --input-json /path/to/clustered_patterns.json \
+  --output-path /path/to/summary.md
+```
+
+You can now open the `.md` file in any Markdown viewer, GitHub, VS Code, or documentation site.
+
 ## 🧠 How to Generate Sentences from Patterns
 
 The `generate-sentences` command creates readable instructional sentences from your pattern YAML files using a Chomsky-style generative template.
@@ -179,6 +209,42 @@ PYTHONPATH=src python3 -m pattern_language_miner.cli generate-sentences \
 > To **{problem}** in the context of **{context}**, use **{solution}**.
 > For example, **{example}**.
 
+## 📘 `classify-types`
+
+#### Classify Patterns by Type
+
+Use the `classify-types` command to add a `type` field to each pattern based on heuristic rules inspired by information mapping and pattern classification frameworks.
+
+This enrichment step helps distinguish different categories of patterns (e.g., `how-to`, `reference`, `conceptual`, etc.) and is useful for downstream summarization or filtering.
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli classify-types \
+  --input-json /path/to/clustered_patterns.json \
+  --output-json /path/to/enriched_patterns.json
+```
+
+**Arguments:**
+
+* `--input-json`: Path to the clustered JSON file, typically named `clustered_patterns.json`.
+* `--output-json`: Destination for the new enriched file with type annotations.
+
+## 🛠️ How-To Guide: Export a Pattern Graph
+
+You can export your enriched patterns into graph formats for visualization or graph database ingestion. This is useful for analyzing relationships between patterns, understanding clusters, and building graph-based exploration tools.
+
+#### Steps
+
+1. Ensure you have enriched pattern files (typically YAML with additional metadata).
+2. Run the following command to export the graph:
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli export-graph \
+  --input-dir /path/to/enriched/patterns \
+  --format graphml \
+  --output-path /path/to/output/pattern_graph.graphml
+```
+
+3. Open the output `.graphml` file in a tool like [yEd](https://www.yworks.com/products/yed) or import into a Neo4j database if using that format.
 
 ## 🧱 HOW DO I EXTEND THE SYSTEM?
 

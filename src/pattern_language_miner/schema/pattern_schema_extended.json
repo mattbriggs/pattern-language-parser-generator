@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/pattern.schema.extended.json",
+  "title": "Extended Pattern Schema",
+  "description": "A schema for enriched patterns using information mapping and pattern language theory.",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "The title of the pattern."
+    },
+    "context": {
+      "type": "string",
+      "description": "The context or background for the pattern."
+    },
+    "problem": {
+      "type": "string",
+      "description": "The core problem the pattern addresses."
+    },
+    "solution": {
+      "type": "string",
+      "description": "The proposed solution to the problem."
+    },
+    "example": {
+      "type": "string",
+      "description": "An example that illustrates the pattern in use."
+    },
+    "rationale": {
+      "type": "string",
+      "description": "The reasoning behind why the solution works."
+    },
+    "warning": {
+      "type": "string",
+      "description": "Any caution or warning about applying this pattern."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["behavioral", "structural", "creational", "organizational", "technical", "strategic"],
+      "description": "A classification of the pattern type based on its domain or function."
+    },
+    "cluster": {
+      "type": "integer",
+      "description": "Cluster ID assigned during semantic grouping."
+    }
+  },
+  "required": ["title", "problem", "solution"],
+  "additionalProperties": false
+}

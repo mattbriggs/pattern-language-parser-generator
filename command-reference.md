@@ -80,6 +80,40 @@ PYTHONPATH=src python3 -m pattern_language_miner.cli cluster \
 | `--input-dir` | Path to folder with YAML pattern files | ✅        | `./patterns_output` |
 | `--field`     | YAML field to embed and cluster        | ❌        | `solution`          |
 
+### 📂 Output
+
+* `clustered_patterns.json`: Cluster assignments
+* `clusters.png`: 2D UMAP plot of clustered patterns
+
+### 📘 Command Reference Fragment: `summarize-clusters`
+
+| Option          | Type | Required | Description                                              |
+| --------------- | ---- | -------- | -------------------------------------------------------- |
+| `--input-json`  | Path | ✅        | Path to the `clustered_patterns.json` file to summarize. |
+| `--output-path` | Path | ✅        | File path where the Markdown summary will be saved.      |
+
+#### Example
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli summarize-clusters \
+  --input-json ./output/clustered_patterns.json \
+  --output-path ./output/summary.md
+```
+
+This will generate a summary like:
+
+```markdown
+## Cluster 0
+
+- Restart with Docker Compose
+- Use Compose to reset the container state
+
+## Cluster 1
+
+- Build and tag the image
+- Use Dockerfile and compose.yaml
+
+
 ## 🧠 `generate-sentences`
 
 **Purpose**: Convert structured YAML patterns into natural language summaries.
@@ -115,7 +149,127 @@ PYTHONPATH=src python3 -m pattern_language_miner.cli generate-sentences \
 * A single file containing generated sentences
 * Format varies by `--format` option
 
-### 📂 Output
+### 📘 Command Reference: `export-graph`
 
-* `clustered_patterns.json`: Cluster assignments
-* `clusters.png`: 2D UMAP plot of clustered patterns
+Exports patterns and their metadata into a graph representation (GraphML, Mermaid, or Neo4j Cypher).
+
+#### Usage
+
+```bash
+python -m pattern_language_miner.cli export-graph [OPTIONS]
+```
+
+#### Options
+
+| Option          | Required | Description                                                           |
+| --------------- | -------- | --------------------------------------------------------------------- |
+| `--input-dir`   | ✅        | Directory containing enriched pattern YAML files                      |
+| `--format`      | ✅        | Output format: `graphml`, `mermaid`, or `neo4j`                       |
+| `--output-path` | ✅        | Output file path (e.g., `graph.graphml`, `graph.cypher`, `graph.mmd`) |
+
+#### Example
+
+```bash
+python -m pattern_language_miner.cli export-graph \
+  --input-dir ./data/patterns_enriched \
+  --format mermaid \
+  --output-path ./docs/patterns_diagram.mmd
+```
+
+#### `classify-types`
+
+**Description:**
+Enrich clustered pattern data with `type` classifications based on content heuristics.
+
+**Usage:**
+
+```bash
+classify-types --input-json PATH --output-json PATH
+```
+
+**Options:**
+
+| Option          | Required | Description                                                     |
+| --------------- | -------- | --------------------------------------------------------------- |
+| `--input-json`  | Yes      | Path to the clustered patterns JSON file                        |
+| `--output-json` | Yes      | Output path for the enriched JSON with classified pattern types |
+
+**Example:**
+
+```bash
+classify-types --input-json clustered_patterns.json --output-json enriched_patterns.json
+```
+
+Here's a reference table and description of the **pattern types** and classification logic used in `classify-types`, suitable for documentation.
+
+---
+
+### 🧩 Pattern Type Reference
+
+This table outlines the classification logic used by the `classify-types` command to categorize patterns based on heuristics applied to their content fields.
+
+| Type         | Description                                                               | Heuristic Trigger Fields            | Example Text Snippet                            |
+| ------------ | ------------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------- |
+| `how-to`     | Step-by-step procedural guidance for accomplishing a task                 | `solution`, `steps`                 | "To restart the service, run this command..."   |
+| `reference`  | Describes the structure or schema of something technical                  | `example`, `fields`, `attributes`   | "The configuration file includes these keys..." |
+| `conceptual` | Explains abstract ideas, principles, or background knowledge              | `context`, `description`            | "Containerization allows applications..."       |
+| `why`        | Justifies or explains the rationale behind a decision or method           | `rationale`, `reason`               | "We chose Azure for its security compliance..." |
+| `pitfall`    | Warns against common mistakes or known failure scenarios                  | `warning`, `caveat`, `anti-pattern` | "Don’t forget to update your SSL cert..."       |
+| `other`      | Does not match known categories or lacks sufficient structure to classify | (none matched)                      |                                                 |
+
+
+### 🧠 Classification Logic (Simplified)
+
+```python
+if "steps" in pattern or "solution" in pattern:
+    type_ = "how-to"
+elif "fields" in pattern or "example" in pattern:
+    type_ = "reference"
+elif "context" in pattern or "description" in pattern:
+    type_ = "conceptual"
+elif "rationale" in pattern or "reason" in pattern:
+    type_ = "why"
+elif "warning" in pattern or "caveat" in pattern or "anti-pattern" in pattern:
+    type_ = "pitfall"
+else:
+    type_ = "other"
+```
+
+This logic is intentionally straightforward to make enrichment fast and explainable. It can be refined or replaced with ML classification or rule tuning based on real-world corpora.
+
+The enrich command outputs a directory of enriched YAML files where each file corresponds to a pattern with additional inferred or normalized metadata fields. These enriched files are structured to support downstream clustering, graph export, and generative tasks.
+
+## Notes on the puput fo the enriched 
+
+The `enrich` command outputs a **directory of enriched YAML files** where each file corresponds to a pattern with additional inferred or normalized metadata fields. These enriched files are structured to support downstream clustering, graph export, and generative tasks.
+
+### ✅ Specifically, each YAML file in the output directory will contain:
+
+| Field       | Description                                                     |
+| ----------- | --------------------------------------------------------------- |
+| `title`     | Inferred or normalized title (from `solution` or fallback text) |
+| `summary`   | Auto-generated or fallback summary string                       |
+| `keywords`  | Tokenized keywords extracted from the solution                  |
+| `problem`   | Inferred problem statement based on heuristics or rules         |
+| `solution`  | The original solution field from the input pattern              |
+| *\[others]* | Any other original fields present in the source pattern YAML    |
+
+### 📁 Output folder contents (example):
+
+```
+enriched/
+├── 001-install-docker.yaml
+├── 002-restart-service.yaml
+├── 003-remove-resource.yaml
+...
+```
+
+### 🔧 Purpose:
+
+This output becomes the canonical enriched dataset used for:
+
+* `cluster`: semantic clustering
+* `generate-sentences`: creating prose summaries
+* `export-graph`: generating GraphML, Mermaid, Neo4j views
+* future inference/classification extensions (e.g., Bloom’s taxonomy, DITA)
+
