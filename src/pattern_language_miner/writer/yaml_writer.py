@@ -24,9 +24,16 @@ class YamlWriter:
         logging.info(f"📝 Writing {len(patterns)} pattern(s) to {self.output_dir}")
 
         for i, pattern in enumerate(patterns, start=1):
-            title = pattern.get("title") or pattern.get("solution") or f"pattern-{i}"
-            filename = f"{i:03d}-{self.sanitize_filename(title)}.yaml"
+            title = pattern.get("title") or pattern.get("solution") or ""
+            sanitized = self.sanitize_filename(title)
+            if not sanitized:
+                sanitized = "pattern"
+
+            filename = f"{i:03d}-{sanitized}.yaml"
             path = self.output_dir / filename
+
+            with open(path, "w", encoding="utf-8") as f:
+                yaml.safe_dump(pattern, f)
 
             try:
                 with open(path, "w", encoding="utf-8") as file:
