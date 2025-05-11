@@ -1,9 +1,12 @@
+beautifulsoup4
 click
+markdown
+matplotlib
 nltk
 PyYAML
-tqdm
 pytest
-beautifulsoup4
-markdown
-weaviate-client
+seaborn
 sentence-transformers
+tqdm
+umap-learn
+weaviate-client

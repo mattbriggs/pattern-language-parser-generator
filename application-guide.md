@@ -113,6 +113,73 @@ docker compose down -v
 docker compose down -v && docker compose up -d
 ```
 
+## 🔍 How to Cluster Patterns
+
+Clustering helps you group patterns that are semantically similar using AI-powered embeddings.
+
+### 🧭 When to Use
+- After running `analyze` to extract patterns
+- When you want to find related ideas across different files
+- To support deduplication or build cluster-driven navigation
+
+### 🧪 Steps
+
+1. **Ensure you have pattern YAML files** from the `analyze` command.
+2. Run the cluster command:
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli cluster \
+  --input-dir ./patterns_output \
+  --field solution
+```
+
+3. **Review the outputs**:
+
+   * `clustered_patterns.json`: Maps each pattern to a cluster ID
+   * `clusters.png`: A 2D plot showing each pattern in its cluster
+
+### 🧠 Notes
+
+* By default, it uses the `solution` field for clustering.
+* You can change this to `problem`, `example`, or any other key in your YAML files.
+* Embedding is done locally using the `sentence-transformers` model `all-MiniLM-L6-v2`.
+
+## 🧠 How to Generate Sentences from Patterns
+
+The `generate-sentences` command creates readable instructional sentences from your pattern YAML files using a Chomsky-style generative template.
+
+### 🧭 When to Use
+- After you’ve run `analyze` and created YAML pattern files
+- To produce plain language summaries
+- To support reuse, training, or publishing workflows
+
+### 🧪 Steps
+
+1. Run the command:
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli generate-sentences \
+  --input-dir ./patterns_output \
+  --output-path ./docs/patterns.md \
+  --format markdown
+```
+
+2. Choose an output format:
+
+   * `text`: plain numbered list
+   * `markdown`: suitable for docs or GitHub
+   * `html`: structured output for web embedding
+
+3. View the results:
+
+   * `patterns.md`, `patterns.txt`, or `patterns.html`
+
+### 🧠 Example Template Used
+
+> To **{problem}** in the context of **{context}**, use **{solution}**.
+> For example, **{example}**.
+
+
 ## 🧱 HOW DO I EXTEND THE SYSTEM?
 
 ### 🔧 Add a new file format:
@@ -148,6 +215,8 @@ Generated:
 ```
 
 This enables AI-based pattern generation and reuse.
+
+
 
 ## 🧭 Final Notes
 

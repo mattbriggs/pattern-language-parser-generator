@@ -51,3 +51,71 @@ This command is ideal for the **first pass** in building a modular knowledge sys
 * Use `validate` (coming soon) to ensure pattern structure compliance
 * Use `cluster` (planned) to semantically group similar patterns
 * Feed into a pattern-based authoring or retrieval system
+
+## 🤝 `cluster`
+
+**Purpose**: Cluster and visualize semantically similar patterns using vector embeddings.
+
+**Description**:  
+This command reads YAML pattern files (e.g., `pattern-*.yaml`), embeds the chosen text field (like `solution`), and groups similar entries using KMeans. It reduces embeddings to 2D using UMAP and plots them using matplotlib + seaborn.
+
+**Problem**:  
+Manual inspection of similar content is time-consuming and error-prone.
+
+**Solution**:  
+Automatically detect and visualize groups of similar content to identify redundancy, support deduplication, or reveal thematic trends.
+
+### ✅ Command
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli cluster \
+  --input-dir ./patterns_output \
+  --field solution
+```
+
+### 🧾 Parameters
+
+| Parameter     | Description                            | Required | Example             |
+| ------------- | -------------------------------------- | -------- | ------------------- |
+| `--input-dir` | Path to folder with YAML pattern files | ✅        | `./patterns_output` |
+| `--field`     | YAML field to embed and cluster        | ❌        | `solution`          |
+
+## 🧠 `generate-sentences`
+
+**Purpose**: Convert structured YAML patterns into natural language summaries.
+
+**Description**:  
+This command loads patterns (e.g., `pattern-*.yaml`), applies a fixed sentence template, and outputs human-readable content in the desired format.
+
+**Problem**:  
+Pattern data is machine-readable but not easy to communicate to humans.
+
+**Solution**:  
+Generate structured summaries that are ready for reuse, training, or review.
+
+### ✅ Command
+
+```bash
+PYTHONPATH=src python3 -m pattern_language_miner.cli generate-sentences \
+  --input-dir ./patterns_output \
+  --output-path ./docs/patterns.md \
+  --format markdown
+```
+
+### 🧾 Parameters
+
+| Parameter       | Description                                  | Required | Example              |
+| --------------- | -------------------------------------------- | -------- | -------------------- |
+| `--input-dir`   | Folder of `pattern-*.yaml` files             | ✅        | `./patterns_output`  |
+| `--output-path` | Where to save generated output file          | ✅        | `./docs/patterns.md` |
+| `--format`      | Output format: `text`, `markdown`, or `html` | ❌        | `markdown`           |
+
+### 📄 Output
+
+* A single file containing generated sentences
+* Format varies by `--format` option
+
+### 📂 Output
+
+* `clustered_patterns.json`: Cluster assignments
+* `clusters.png`: 2D UMAP plot of clustered patterns
