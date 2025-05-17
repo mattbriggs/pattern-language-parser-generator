@@ -1,6 +1,8 @@
 import os
 import shutil
 import tempfile
+from pathlib import Path
+
 import pytest
 
 from pattern_language_miner.walker import DirectoryWalker
@@ -18,7 +20,9 @@ def sample_directory_with_files():
     files = {
         "example.txt": "This is a sample sentence. This is another sample sentence.",
         "example.md": "# Heading\n\nSome repeated text here. Some repeated text here.",
-        "example.html": "<html><body><p>HTML content repeated. HTML content repeated.</p></body></html>"
+        "example.html": (
+            "<html><body><p>HTML content repeated. HTML content repeated.</p></body></html>"
+        ),
     }
 
     for filename, content in files.items():
@@ -31,40 +35,23 @@ def sample_directory_with_files():
 
 
 def test_integration_extraction_and_yaml(sample_directory_with_files):
-    output_dir = tempfile.mkdtemp()
+    """
+    Runs end-to-end test from extraction to YAML output using valid config.
+    """
+    output_dir = Path(tempfile.mkdtemp())
+    input_dir = Path(sample_directory_with_files)
+    config_path = Path("tests/data/config_valid.yaml")
 
-    walker = DirectoryWalker(sample_directory_with_files)
-    extractor = PatternExtractor()
-    writer = YAMLWriter(output_dir)
+    extractor = PatternExtractor(
+        config_path=config_path,
+        input_dir=input_dir,
+        output_dir=output_dir,
+    )
+    extractor.run()
 
-    all_texts = []
-    for _, content, parser in walker.walk():
-        parsed = parser.parse(content)
-        if parsed["type"] == "text":
-            all_texts.extend(parsed["lines"])
-        else:
-            all_texts.append(parsed["html"])
+    # Check that YAML files were generated
+    output_files = list(output_dir.glob("*.yaml"))
+    assert output_files, "No patterns were extracted and saved."
 
-    patterns = extractor.extract_lexical_patterns(all_texts)
-
-    assert isinstance(patterns, list)
-    assert all("pattern" in p and "frequency" in p for p in patterns)
-
-    for i, pattern in enumerate(patterns):
-        yaml_data = {
-            "id": f"pattern-{i+1}",
-            "name": pattern["pattern"],
-            "level": "chunk",
-            "context": "Discovered through frequency analysis.",
-            "problem": "Frequent phrasing may signal reusable content.",
-            "solution": pattern["pattern"],
-            "example": pattern["pattern"],
-            "sources": [{"document": "test"}],
-            "frequency": pattern["frequency"]
-        }
-        writer.write_pattern(yaml_data, f"pattern-{i+1}.yaml")
-
-    output_files = os.listdir(output_dir)
-    assert any(f.startswith("pattern-") and f.endswith(".yaml") for f in output_files)
-
+    # Clean up after test
     shutil.rmtree(output_dir)

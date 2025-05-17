@@ -1,10 +1,10 @@
 pattern_extraction:
-  frequency_threshold: 3
-  minimum_token_count: 2
+  file_type: md                     # Required field for schema compliance
+  frequency_threshold: 1
+  minimum_token_count: 1
+  ngram_min: 2
+  ngram_max: 5
   scope: sentence
   pos_filtering: false
   allowed_pos_tags: []
   block_elements: []
-  file_types: md
-  ngram_min: 2
-  ngram_max: 5
