@@ -11,8 +11,7 @@ The **Pattern Language Miner** is a modular Python application designed to extra
 * [config.yml Reference and Usage Guide](docs/configuration-file-reference.md)
 * [Troubleshooting](docs/troubleshooting.md)
 
-> [NOTE!]
-> Docs are in process and may have wrong parameters, order.
+> **Note**: Docs are in process and may have wrong parameters, order.
 
 ## ✨ Purpose
 
