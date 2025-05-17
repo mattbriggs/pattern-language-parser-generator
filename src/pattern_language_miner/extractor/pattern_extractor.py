@@ -8,7 +8,7 @@ nltk.download('punkt', quiet=True)
 
 
 class PatternExtractor:
-    def __init__(self, input_dir: Path, file_types: list[str]):
+    def __init__(self, input_dir: Path, file_types: List[str]):
         self.input_dir = Path(input_dir)
         self.file_types = file_types
         self.ngram_min = 2
@@ -21,17 +21,23 @@ class PatternExtractor:
         return self.extract_lexical_patterns(documents)
 
     def _load_documents(self) -> List[str]:
-        """Load all matching files from the input directory."""
+        """Load all matching files from the input directory with logging."""
         documents = []
+        count = 0
         for root, _, files in os.walk(self.input_dir):
             for fname in files:
                 if any(fname.endswith(ext) for ext in self.file_types):
                     path = os.path.join(root, fname)
+                    logging.debug(f"📄 Reading file: {path}")
                     try:
-                        with open(path, "r", encoding="utf-8") as f:
-                            documents.append(f.read())
+                        with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                            text = f.read()
+                            if text.strip():  # avoid blank files
+                                documents.append(text)
+                                count += 1
                     except Exception as e:
-                        print(f"⚠️ Failed to read {fname}: {e}")
+                        logging.warning(f"⚠️ Failed to read {fname}: {e}")
+        logging.info(f"✅ Loaded {count} document(s).")
         return documents
 
     def extract_lexical_patterns(self, documents: List[str]) -> List[Dict[str, object]]:
@@ -45,6 +51,7 @@ class PatternExtractor:
             List[Dict]: A list of detected lexical patterns with frequency.
         """
         all_ngrams = []
+        logging.info(f"🧠 Extracting patterns from {len(documents)} document(s)...")
 
         for doc in documents:
             sentences = nltk.sent_tokenize(doc)
@@ -61,4 +68,5 @@ class PatternExtractor:
             if count >= self.min_frequency
         ]
 
+        logging.info(f"✅ Extracted {len(patterns)} frequent patterns.")
         return sorted(patterns, key=lambda x: x["frequency"], reverse=True)
