@@ -1,9 +1,9 @@
 # Instructions for Docker and Weaviate Integration
 
-This guide provides comprehensive instructions for managing the lifecycle of a local **Weaviate** instance using Docker, specifically for use with the Pattern Language Miner application.
+This guide provides comprehensive instructions for managing the lifecycle of a local **Weaviate** instance using Docker, specifically for use with the Pattern Language Miner tool.
 ## 🚀 Overview
 
-Weaviate is a vector database that allows fast semantic search and retrieval. In this application, it supports:
+Weaviate is a vector database that allows fast semantic search and retrieval. In this tool, it supports:
 
 * Storing structured pattern data
 * Performing similarity queries using OpenAI embeddings

@@ -4,7 +4,7 @@ This guide explains how to **use Pattern Language Miner** for its primary tasks:
 
 ## 🔍 HOW DO I PREPARE MY DOCUMENTS FOR ANALYSIS?
 
-**Goal**: Ensure your files are in a format compatible with the application.
+**Goal**: Ensure your files are in a format compatible with the tool.
 
 ### ✅ Supported formats:
 

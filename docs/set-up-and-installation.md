@@ -1,6 +1,6 @@
 # ⚙️ Set up and installation of the Pattern Language Miner
 
-This guide outlines the installation and usage of the Pattern Language Miner. It involves cloning the repository, creating a virtual environment, installing dependencies, and setting up Weaviate for semantic clustering. The application can be run using the CLI to analyze a directory of files and generate patterns.
+This guide outlines the installation and usage of the Pattern Language Miner. It involves cloning the repository, creating a virtual environment, installing dependencies, and setting up Weaviate for semantic clustering. The tool can be run using the CLI to analyze a directory of files and generate patterns.
 
 ### 1. Clone the repository
 
@@ -44,7 +44,7 @@ python setup_resources.py
 
 ## 🧠 Weaviate (Vector Search)
 
-The application integrates with a local Weaviate instance for semantic clustering. 
+The tool integrates with a local Weaviate instance for semantic clustering. 
 
 [Weaviate](https://weaviate.io/) is an open-source, AI-native vector database designed to store and search data objects alongside their vector embeddings. This enables efficient similarity searches across various data types, including text, images, and other unstructured content. By leveraging machine learning models, Weaviate transforms data into high-dimensional vectors, facilitating semantic understanding and retrieval based on meaning rather than exact matches
 
@@ -82,7 +82,7 @@ Load Docker compose file and check availability. The Docker Compose file defines
 
 Docker Desktop extends this capability by providing an intuitive graphical interface and additional tools tailored for local development on Windows, macOS, and Linux. It simplifies managing container lifecycles, networking, volume management, and orchestrating complex applications. Docker Desktop also includes built-in integrations with Kubernetes, enabling users to deploy and test containerized applications seamlessly on their local machines.
 
-## 🚀 Running the Application
+## 🚀 Running the tool
 
 Use the CLI to analyze a directory of files:
 

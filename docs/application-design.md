@@ -86,11 +86,11 @@ The system architecture is modular and applies classic software engineering prin
 | **Template Method** | BaseParser defines common parser interface        |
 | **Builder**         | YAMLWriter assembles structured documents         |
 
-These ensure the application is testable, extensible, and loosely coupled.
+These ensure the tool is testable, extensible, and loosely coupled.
 
-## 🔌 Extending the Application
+## 🔌 Extending the tool
 
-The application was designed for flexibility and extension:
+The tool was designed for flexibility and extension:
 
 1. **New input formats**
    Add a parser that subclasses `BaseParser`.
