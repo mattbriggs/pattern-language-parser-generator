@@ -111,7 +111,7 @@ pattern_extraction:
     - table
 ```
 
-
+You can get an example: [config.yml](config.yml)
 
 ## 🎯 Applying Configuration in Different Discourse Domains
 
