@@ -107,7 +107,7 @@ PYTHONPATH=src pytest
 * Clear `weaviate_data/` volume if you need to reset Weaviate.
 * New document types can be added by implementing a new `BaseParser`.
 
-For further details about resolving issues, see [Logging and Troubleshooting Guide](docs/troubleshooting.md).
+For further details about resolving issues, see [Logging and Troubleshooting Guide](troubleshooting.md).
 
 ## 📁 Project Structure
 
@@ -130,14 +130,14 @@ requirements.txt         # Script dependencies
 setup_resources.py       # Script to install NLTK resources
 ```
 
-For further details about the design of the tool, see [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](docs/application-design.md).
+For further details about the design of the tool, see [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md).
 
 # Related content
 
-* [Command Reference](docs/command-reference.md)
-* [config.yml Reference and Usage Guide](docs/configuration-file-reference.md)
-* [Instructions for Docker and Weaviate Integration](docs/instructions_for_docker.md)
-* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](docs/application-design.md)
-* [Pattern Language Miner: How-To Manual](docs/application-guide.md)
-* [Troubleshooting](docs/troubleshooting.md)
-* [Workflow](docs/workflow.md)
+* [Command Reference](command-reference.md)
+* [config.yml Reference and Usage Guide](configuration-file-reference.md)
+* [Instructions for Docker and Weaviate Integration](instructions_for_docker.md)
+* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md)
+* [Pattern Language Miner: How-To Manual](application-guide.md)
+* [Troubleshooting](troubleshooting.md)
+* [Workflow](workflow.md)
