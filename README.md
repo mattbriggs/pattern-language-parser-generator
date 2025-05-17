@@ -4,9 +4,11 @@ The **Pattern Language Miner** is a modular Python application designed to extra
 
 ## Documentation
 
-* [Instructions for Docker and Weaviate Integration](instructions_for_docker.md)
-* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md)
-* [Pattern Language Miner: How-To Manual](application-guide.md)
+* [Instructions for Docker and Weaviate Integration](docs/instructions_for_docker.md)
+* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](docs/application-design.md)
+* [Pattern Language Miner: How-To Manual](docs/application-guide.md)
+* [Workflow](docs/workflow.md)
+* [Troubleshooting](docs/troubleshooting.md)
 
 ## ✨ Purpose
 
