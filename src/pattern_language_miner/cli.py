@@ -19,6 +19,10 @@ def cli(log_level):
     logging.basicConfig(
         level=log_level.upper(),
         format="%(asctime)s %(levelname)s: %(message)s",
+        handlers=[
+            logging.FileHandler("logs/pattern_miner.log"),
+            logging.StreamHandler()
+        ]
     )
 
 
