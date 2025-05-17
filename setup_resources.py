@@ -19,9 +19,18 @@ def test_sentence_transformer_model(model_name="all-MiniLM-L6-v2"):
     except Exception as e:
         logging.error(f"Failed to load SentenceTransformer model: {e}")
 
+def ensure_nltk_resource(resource):
+    try:
+        nltk.data.find(resource)
+    except LookupError:
+        print(f"📦 Downloading missing resource: {resource}")
+        nltk.download(resource.split("/")[-1])
+
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     logging.info("📦 Checking NLP resources for Pattern Language Miner...")
     download_nltk_resources()
+    ensure_nltk_resource('tokenizers/punkt')
+    ensure_nltk_resource('taggers/averaged_perceptron_tagger')
     test_sentence_transformer_model()

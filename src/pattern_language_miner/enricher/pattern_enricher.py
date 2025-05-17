@@ -83,7 +83,7 @@ def enrich_pattern(pattern: Dict[str, Any]) -> Dict[str, Any]:
     # ---- summary ------------------------------------------------------------- #
     if not enriched.get("summary"):
         enriched["summary"] = (
-            f"This pattern proposes the solution “{solution}”."
+            f"This pattern proposes the solution '{solution}'."
             if solution
             else "No solution provided."
         )

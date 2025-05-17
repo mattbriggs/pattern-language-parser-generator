@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Pattern Extraction Config",
+  "type": "object",
+  "properties": {
+    "pattern_extraction": {
+      "type": "object",
+      "required": ["file_type", "frequency_threshold", "minimum_token_count", "scope"],
+      "properties": {
+        "file_type": {
+          "type": "string",
+          "description": "Single file extension to include (e.g., 'md', 'txt', 'html')",
+          "pattern": "^[a-zA-Z0-9]+$"
+        },
+        "frequency_threshold": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "minimum_token_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "scope": {
+          "type": "string",
+          "enum": ["line", "sentence", "block"]
+        },
+        "pos_filtering": {
+          "type": "boolean"
+        },
+        "allowed_pos_tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "block_elements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": ["pattern_extraction"]
+}

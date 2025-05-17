@@ -25,6 +25,7 @@ This is a "cook‑book" style guide that pulls together everything you have buil
 ```bash
 # 1. Mine raw patterns
 PYTHONPATH=src python -m pattern_language_miner.cli analyze \
+  --config 'config.yaml' \
   --input-dir   /data/corpora/azure-docs \
   --output-dir  /data/pattern01/raw \
   --file-types  md,txt,html

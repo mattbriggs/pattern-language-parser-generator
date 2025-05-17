@@ -2,7 +2,7 @@ beautifulsoup4
 click
 markdown
 matplotlib
-nltk
+nltk==3.7
 PyYAML
 pytest
 seaborn
@@ -10,3 +10,4 @@ sentence-transformers
 tqdm
 umap-learn
 weaviate-client
+jsonschema

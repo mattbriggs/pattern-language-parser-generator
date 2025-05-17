@@ -27,25 +27,23 @@ def cli(log_level):
 
 
 @cli.command()
-@click.option("--input-dir", required=True, type=click.Path(exists=True))
-@click.option("--output-dir", required=True, type=click.Path())
-@click.option(
-    "--file-types", default="md,txt", help="Comma-separated list of file extensions."
-)
-def analyze(input_dir, output_dir, file_types):
-    """Analyze a directory of Markdown/Text and extract structured patterns."""
+@click.option("--config", required=True, type=click.Path(exists=True), help="Path to YAML configuration file.")
+@click.option("--input-dir", required=True, type=click.Path(exists=True), help="Input corpus directory.")
+@click.option("--output-dir", required=True, type=click.Path(), help="Output directory for extracted patterns.")
+def analyze(config, input_dir, output_dir):
+    """
+    Analyze a corpus directory using configured extraction settings.
+    """
     logging.info("🚀 Starting analysis...")
 
-    extractor = PatternExtractor(input_dir=input_dir, file_types=file_types.split(","))
-    patterns = extractor.run()
+    extractor = PatternExtractor(
+        config_path=Path(config),
+        input_dir=Path(input_dir),
+        output_dir=Path(output_dir)
+    )
+    extractor.run()
 
-    output_path = Path(output_dir)
-    output_path.mkdir(parents=True, exist_ok=True)
-
-    writer = YamlWriter(output_path)
-    writer.write(patterns)
-
-    logging.info(f"✅ Wrote {len(patterns)} patterns to {output_path}")
+    logging.info(f"✅ Wrote extracted patterns to {output_dir}")
 
 
 @cli.command()
@@ -69,12 +67,8 @@ def cluster(input_dir, output_dir, field, batch_size):
     embeddings = clusterer.embed_patterns(batch_size=batch_size)
     reduced, cluster_ids = clusterer.cluster_and_reduce(embeddings)
 
-    clusterer.visualize_clusters(
-        reduced, cluster_ids, output_dir / "clusters.png"
-    )
-    clusterer.generate_cluster_report(
-        cluster_ids, output_dir / "clustered_patterns.json"
-    )
+    clusterer.visualize_clusters(reduced, cluster_ids, output_dir / "clusters.png")
+    clusterer.generate_cluster_report(cluster_ids, output_dir / "clustered_patterns.json")
 
     logging.info("✅ Clustering complete.")
 

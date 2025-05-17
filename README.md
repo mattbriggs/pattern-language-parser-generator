@@ -8,7 +8,11 @@ The **Pattern Language Miner** is a modular Python application designed to extra
 * [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](docs/application-design.md)
 * [Pattern Language Miner: How-To Manual](docs/application-guide.md)
 * [Workflow](docs/workflow.md)
+* [config.yml Reference and Usage Guide](docs/configuration-file-reference.md)
 * [Troubleshooting](docs/troubleshooting.md)
+
+> [NOTE!]
+> Docs are in process and may have wrong parameters, order.
 
 ## ✨ Purpose
 
@@ -52,19 +56,14 @@ pip install -r requirements.txt
 ```
 ## 📦 NLTK Setup
 
-The app requires the `punkt` tokenizer. Run the following:
+I've included a script to help get the resources you need. Also note that the NLTK is a previous version (3.7).
+
+You can run:
 
 ```bash
-python -c "import nltk; nltk.download('punkt')"
+python setup_resources.py
 ```
 
-For extended NLP use:
-
-```bash
-nltk.download('averaged_perceptron_tagger')
-nltk.download('maxent_ne_chunker')
-nltk.download('words')
-```
 ## 🧠 Optional: Weaviate (Vector Search)
 
 The application integrates with a local Weaviate instance for semantic clustering.
@@ -87,10 +86,11 @@ Check availability: [http://localhost:8080/v1/.well-known/ready](http://localhos
 Use the CLI to analyze a directory of files:
 
 ```bash
-PYTHONPATH=src python3 -m pattern_language_miner.cli analyze \
+PYTHONPATH=src python3 -m pattern_language_miner.cli \
+--log-level DEBUG \
+analyze \
   --input-dir ./sample_docs analyze\
   --output-dir ./patterns_output \
-  --log-level DEBUG
 ```
 ## 🧪 Running Tests
 
@@ -105,6 +105,9 @@ PYTHONPATH=src pytest
 ## 📁 Project Structure
 
 ```
+
+docs/                    # Insructions and notes on how to use this tool
+logs/                    # Location of the log files when debugging
 src/pattern_language_miner/
 ├── parser/              # File parsers for text, HTML, markdown
 ├── extractor/           # Lexical and semantic pattern extractors
@@ -115,7 +118,9 @@ src/pattern_language_miner/
 ├── schema/              # JSON schema for pattern validation
 tests/                   # Unit + integration tests
 docker-compose.yml       # Weaviate container config
+requirements.txt         # Script dependencies
+setup_resources.py       # Script to install NLTK resources
 ```
 ## 📄 License
 
-MIT License. © Final State Press
+MIT License. © Final State Press 2025

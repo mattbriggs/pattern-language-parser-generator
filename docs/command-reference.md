@@ -20,6 +20,7 @@ By mining lexical patterns across your corpus, this command transforms undocumen
 
 ```bash
 PYTHONPATH=src python3 -m pattern_language_miner.cli analyze \
+  --config 'config.yaml' \
   --input-dir ./docs \
   --output-dir ./patterns_output \
   --log-level INFO
@@ -28,6 +29,7 @@ PYTHONPATH=src python3 -m pattern_language_miner.cli analyze \
 
 | Parameter      | Description                                                | Required | Example             |
 | -- | - | -- | - |
+| `--config` | Path to YAML configuration file defining extraction settings | | ✅        | `./config.yaml` |
 | `--input-dir`  | Path to folder containing source `.txt`, `.md`, or `.html` | ✅        | `./docs`            |
 | `--output-dir` | Directory to write YAML pattern files and summary JSON     | ✅        | `./patterns_output` |
 | `--log-level`  | Logging level: DEBUG, INFO, WARNING, ERROR                 | ❌        | `DEBUG`             |
