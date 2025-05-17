@@ -24,11 +24,12 @@ This is a "cook‑book" style guide that pulls together everything you have buil
 
 ```bash
 # 1. Mine raw patterns
-PYTHONPATH=src python -m pattern_language_miner.cli analyze \
+PYTHONPATH=src python -m pattern_language_miner.cli 
+  --log-level DEBUG \
+analyze \
   --config 'config.yaml' \
   --input-dir   /data/corpora/azure-docs \
-  --output-dir  /data/pattern01/raw \
-  --file-types  md,txt,html
+  --output-dir  /data/pattern01/raw
 
 # 2. Enrich patterns with titles, problems, summaries, keywords …
 PYTHONPATH=src python -m pattern_language_miner.cli enrich \
@@ -99,7 +100,7 @@ After these six commands you will have:
    * UMAP 2‑D reduction for pretty plots.
    * Stores cluster id back into each pattern JSON record.
 
-4. **Summarise**
+4. **Summarize**
 
    * Groups by `cluster` → Markdown bulleted list.
    * Easy for SMEs to eyeball what each cluster represents.
@@ -112,6 +113,14 @@ After these six commands you will have:
      * `tags`    ⇒ edges *pattern* → *tag*     (`HAS_TAG`)
      * `concepts`⇒ edges *pattern* → *concept* (`ABOUT`)
    * Choose GraphML (for yEd/Gephi), Mermaid (Markdown diagrams), Neo4j Cypher.
+
+To work with these formats see:
+
+| Format     | Description                                                                 | Recommended Tool            |
+|------------|-----------------------------------------------------------------------------|-----------------------------|
+| [GraphML](http://graphml.graphdrawing.org/)    | An XML-based format for describing structured graphs, including metadata.   | [yEd](https://www.yworks.com/products/yed), [Gephi](https://gephi.org/), [Neo4j Browser](https://neo4j.com/)   |
+| [Mermaid.js](https://mermaid.js.org/) | A text-based diagramming syntax for creating flowcharts, UML, and more.     | [VS Code extension](https://marketplace.visualstudio.com/items?itemName=vstirbu.vscode-mermaid-preview), Markdown preview, [Mermaid Live Editor](https://mermaid.live/) |
+| [Cypher](https://neo4j.com/docs/getting-started/cypher/)     | A declarative graph query language used to interact with property graphs.   | Neo4j Desktop, Neo4j Browser, Cypher Shell |
 
 6. **Generate Sentences**
 
@@ -128,7 +137,7 @@ After these six commands you will have:
 | ------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------------- |
 | `clusters.png`           | Dense blobs = high repetition; sparse points = unique patterns. | Identify canonical procedures vs ad‑hoc snippets.                          |
 | `cluster_summary.md`     | Scan headings to name clusters; drill into YAML for detail.     | Quickly spot "installation", "troubleshooting", "definition" buckets.      |
-| `graph.graphml`          | Load in yEd → layout hierarchy. Colours by node type.           | Shows which tags/concepts span multiple patterns; highlights orphan nodes. |
+| `graph.graphml`          | Load in yEd → layout hierarchy. Colors by node type.            | Shows which tags/concepts span multiple patterns; highlights orphan nodes. |
 | `generated_sentences.md` | Ready prompts for LLM few‑shot or doc boiler‑plates.            | Feed into ChatGPT to draft new docs; use in static site generators.        |
 
 ## 5  | Using the Outputs for Content Generation
@@ -157,3 +166,13 @@ All new features can live under `src/pattern_language_miner/plugins/<plugin_name
 * The project is fully **extensible** via plug‑ins: new enrichers, classifiers, exporters, or even alternative clustering algorithms.
 
 Enjoy mining, exploring - and *creating* new documents with your custom pattern language.
+
+## Related content
+
+* [Command Reference](command-reference.md)
+* [config.yml Reference and Usage Guide](configuration-file-reference.md)
+* [Instructions for Docker and Weaviate Integration](instructions_for_docker.md)
+* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md)
+* [Pattern Language Miner: How-To Manual](application-guide.md)
+* [Set up and installation of the Pattern Language Miner](set-up-and-installation.md)
+* [Troubleshooting](troubleshooting.md)

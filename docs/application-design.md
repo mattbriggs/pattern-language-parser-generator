@@ -114,3 +114,13 @@ Pattern Language Miner helps identify and encode the reusable DNA of your docume
 By grounding the tool in established linguistic theory and modern NLP, it not only automates detection of existing structure but also facilitates the generation of new, semantically consistent content.
 
 It's a foundation for any organization that wants to evolve its documentation from static prose into a living system of modular knowledge.
+
+## Related content
+
+* [Command Reference](command-reference.md)
+* [config.yml Reference and Usage Guide](configuration-file-reference.md)
+* [Instructions for Docker and Weaviate Integration](instructions_for_docker.md)
+* [Pattern Language Miner: How-To Manual](application-guide.md)
+* [Set up and installation of the Pattern Language Miner](set-up-and-installation.md)
+* [Troubleshooting](troubleshooting.md)
+* [Workflow](workflow.md)

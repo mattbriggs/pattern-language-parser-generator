@@ -290,4 +290,11 @@ This enables AI-based pattern generation and reuse.
 * You can safely re-run `analyze` without affecting existing YAML files
 * Always validate your YAML using JSON Schema for structure compliance
 
-Would you like this linked in your main `README.md` or added to a published docs site?
+## Related content
+
+* [Set up and installation of the Pattern Language Miner](set-up-and-installation.md)
+* [Instructions for Docker and Weaviate Integration](instructions_for_docker.md)
+* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md)
+* [Workflow](workflow.md)
+* [config.yml Reference and Usage Guide](configuration-file-reference.md)
+* [Troubleshooting](troubleshooting.md)

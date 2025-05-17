@@ -92,3 +92,13 @@ PYTHONPATH=src python -m pattern_language_miner.cli analyze \
 ```
 
 This setting will include detailed diagnostics in `pattern_miner.log`.
+
+## Related content
+
+* [Command Reference](command-reference.md)
+* [config.yml Reference and Usage Guide](configuration-file-reference.md)
+* [Instructions for Docker and Weaviate Integration](instructions_for_docker.md)
+* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md)
+* [Pattern Language Miner: How-To Manual](application-guide.md)
+* [Set up and installation of the Pattern Language Miner](set-up-and-installation.md)
+* [Workflow](workflow.md)

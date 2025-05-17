@@ -1,277 +1,173 @@
-## 🔧 Command Reference
+# Command Reference: Pattern Language Miner CLI
 
-The Pattern Language Miner provides a modular CLI interface composed of subcommands. Each subcommand represents a distinct function in the content pattern mining pipeline.
-
-### 🔍 `analyze`
-
-**Purpose**:
-Extract recurring lexical patterns from a directory of content files and save them in structured YAML format.
-
-**Description**:
-This command parses a corpus of `.txt`, `.md`, or `.html` documents, mines common phrases (n-grams), and outputs a pattern for each one that meets a frequency threshold. It is the foundational step in discovering reusable documentation structures.
-
-**Problem**:
-Content creators often duplicate common language and formatting across files, but these patterns remain hidden and are hard to reuse or model.
-
-**Solution**:
-By mining lexical patterns across your corpus, this command transforms undocumented repetition into explicit, structured content patterns, usable in downstream authoring, templating, or retrieval systems.
-
-#### ✅ Command Syntax
-
-```bash
-PYTHONPATH=src python3 -m pattern_language_miner.cli analyze \
-  --config 'config.yaml' \
-  --input-dir ./docs \
-  --output-dir ./patterns_output \
-  --log-level INFO
-```
-#### 🧾 Parameters
-
-| Parameter      | Description                                                | Required | Example             |
-| -- | - | -- | - |
-| `--config` | Path to YAML configuration file defining extraction settings | | ✅        | `./config.yaml` |
-| `--input-dir`  | Path to folder containing source `.txt`, `.md`, or `.html` | ✅        | `./docs`            |
-| `--output-dir` | Directory to write YAML pattern files and summary JSON     | ✅        | `./patterns_output` |
-| `--log-level`  | Logging level: DEBUG, INFO, WARNING, ERROR                 | ❌        | `DEBUG`             |
-#### 💬 When & Why to Use
-
-Use `analyze` when:
-
-* You want to mine a large content corpus for repeating phrasing
-* You want to bootstrap a pattern library from real-world content
-* You're preparing data for clustering or authoring automation
-
-This command is ideal for the **first pass** in building a modular knowledge system and can be rerun safely as documents evolve.
-
-#### 📄 Output Files
-
-* YAML files in `--output-dir`, one per pattern (e.g., `pattern-1.yaml`)
-* A JSON summary: `summary_report.json` with stats on processing
-
-#### 🔄 Next Steps After `analyze`
-
-* Use `validate` (coming soon) to ensure pattern structure compliance
-* Use `cluster` (planned) to semantically group similar patterns
-* Feed into a pattern-based authoring or retrieval system
-
-## 🤝 `cluster`
-
-**Purpose**: Cluster and visualize semantically similar patterns using vector embeddings.
-
-**Description**:  
-This command reads YAML pattern files (e.g., `pattern-*.yaml`), embeds the chosen text field (like `solution`), and groups similar entries using KMeans. It reduces embeddings to 2D using UMAP and plots them using matplotlib + seaborn.
-
-**Problem**:  
-Manual inspection of similar content is time-consuming and error-prone.
-
-**Solution**:  
-Automatically detect and visualize groups of similar content to identify redundancy, support deduplication, or reveal thematic trends.
-
-### ✅ Command
-
-```bash
-PYTHONPATH=src python3 -m pattern_language_miner.cli cluster \
-  --input-dir ./patterns_output \
-  --field solution
-```
-
-### 🧾 Parameters
-
-| Parameter     | Description                            | Required | Example             |
-| ------------- | -------------------------------------- | -------- | ------------------- |
-| `--input-dir` | Path to folder with YAML pattern files | ✅        | `./patterns_output` |
-| `--field`     | YAML field to embed and cluster        | ❌        | `solution`          |
-
-### 📂 Output
-
-* `clustered_patterns.json`: Cluster assignments
-* `clusters.png`: 2D UMAP plot of clustered patterns
-
-### 📘 Command Reference Fragment: `summarize-clusters`
-
-| Option          | Type | Required | Description                                              |
-| --------------- | ---- | -------- | -------------------------------------------------------- |
-| `--input-json`  | Path | ✅        | Path to the `clustered_patterns.json` file to summarize. |
-| `--output-path` | Path | ✅        | File path where the Markdown summary will be saved.      |
-
-#### Example
-
-```bash
-PYTHONPATH=src python3 -m pattern_language_miner.cli summarize-clusters \
-  --input-json ./output/clustered_patterns.json \
-  --output-path ./output/summary.md
-```
-
-This will generate a summary like:
-
-```markdown
-## Cluster 0
-
-- Restart with Docker Compose
-- Use Compose to reset the container state
-
-## Cluster 1
-
-- Build and tag the image
-- Use Dockerfile and compose.yaml
-
-
-## 🧠 `generate-sentences`
-
-**Purpose**: Convert structured YAML patterns into natural language summaries.
-
-**Description**:  
-This command loads patterns (e.g., `pattern-*.yaml`), applies a fixed sentence template, and outputs human-readable content in the desired format.
-
-**Problem**:  
-Pattern data is machine-readable but not easy to communicate to humans.
-
-**Solution**:  
-Generate structured summaries that are ready for reuse, training, or review.
-
-### ✅ Command
-
-```bash
-PYTHONPATH=src python3 -m pattern_language_miner.cli generate-sentences \
-  --input-dir ./patterns_output \
-  --output-path ./docs/patterns.md \
-  --format markdown
-```
-
-### 🧾 Parameters
-
-| Parameter       | Description                                  | Required | Example              |
-| --------------- | -------------------------------------------- | -------- | -------------------- |
-| `--input-dir`   | Folder of `pattern-*.yaml` files             | ✅        | `./patterns_output`  |
-| `--output-path` | Where to save generated output file          | ✅        | `./docs/patterns.md` |
-| `--format`      | Output format: `text`, `markdown`, or `html` | ❌        | `markdown`           |
-
-### 📄 Output
-
-* A single file containing generated sentences
-* Format varies by `--format` option
-
-### 📘 Command Reference: `export-graph`
-
-Exports patterns and their metadata into a graph representation (GraphML, Mermaid, or Neo4j Cypher).
-
-#### Usage
-
-```bash
-python -m pattern_language_miner.cli export-graph [OPTIONS]
-```
-
-#### Options
-
-| Option          | Required | Description                                                           |
-| --------------- | -------- | --------------------------------------------------------------------- |
-| `--input-dir`   | ✅        | Directory containing enriched pattern YAML files                      |
-| `--format`      | ✅        | Output format: `graphml`, `mermaid`, or `neo4j`                       |
-| `--output-path` | ✅        | Output file path (e.g., `graph.graphml`, `graph.cypher`, `graph.mmd`) |
-
-#### Example
-
-```bash
-python -m pattern_language_miner.cli export-graph \
-  --input-dir ./data/patterns_enriched \
-  --format mermaid \
-  --output-path ./docs/patterns_diagram.mmd
-```
-
-#### `classify-types`
-
-**Description:**
-Enrich clustered pattern data with `type` classifications based on content heuristics.
-
-**Usage:**
-
-```bash
-classify-types --input-json PATH --output-json PATH
-```
-
-**Options:**
-
-| Option          | Required | Description                                                     |
-| --------------- | -------- | --------------------------------------------------------------- |
-| `--input-json`  | Yes      | Path to the clustered patterns JSON file                        |
-| `--output-json` | Yes      | Output path for the enriched JSON with classified pattern types |
-
-**Example:**
-
-```bash
-classify-types --input-json clustered_patterns.json --output-json enriched_patterns.json
-```
-
-Here's a reference table and description of the **pattern types** and classification logic used in `classify-types`, suitable for documentation.
+The **Pattern Language Miner CLI** is a modular command-line interface that supports pattern discovery, enrichment, clustering, summarization, and graph export of recurring lexical structures in text-based content. It is designed for knowledge engineers, content strategists, and machine learning practitioners working with structured authoring and content reuse.
 
 ---
 
-### 🧩 Pattern Type Reference
+## `analyze`
 
-This table outlines the classification logic used by the `classify-types` command to categorize patterns based on heuristics applied to their content fields.
+**Purpose**: Extract frequent lexical patterns (n-grams) from structured or unstructured documents.
 
-| Type         | Description                                                               | Heuristic Trigger Fields            | Example Text Snippet                            |
-| ------------ | ------------------------------------------------------------------------- | ----------------------------------- | ----------------------------------------------- |
-| `how-to`     | Step-by-step procedural guidance for accomplishing a task                 | `solution`, `steps`                 | "To restart the service, run this command..."   |
-| `reference`  | Describes the structure or schema of something technical                  | `example`, `fields`, `attributes`   | "The configuration file includes these keys..." |
-| `conceptual` | Explains abstract ideas, principles, or background knowledge              | `context`, `description`            | "Containerization allows applications..."       |
-| `why`        | Justifies or explains the rationale behind a decision or method           | `rationale`, `reason`               | "We chose Azure for its security compliance..." |
-| `pitfall`    | Warns against common mistakes or known failure scenarios                  | `warning`, `caveat`, `anti-pattern` | "Don’t forget to update your SSL cert..."       |
-| `other`      | Does not match known categories or lacks sufficient structure to classify | (none matched)                      |                                                 |
+**Command Syntax**:
 
-
-### 🧠 Classification Logic (Simplified)
-
-```python
-if "steps" in pattern or "solution" in pattern:
-    type_ = "how-to"
-elif "fields" in pattern or "example" in pattern:
-    type_ = "reference"
-elif "context" in pattern or "description" in pattern:
-    type_ = "conceptual"
-elif "rationale" in pattern or "reason" in pattern:
-    type_ = "why"
-elif "warning" in pattern or "caveat" in pattern or "anti-pattern" in pattern:
-    type_ = "pitfall"
-else:
-    type_ = "other"
+```bash
+PYTHONPATH=src python -m pattern_language_miner.cli analyze \
+  --config config.yaml \
+  --input-dir ./docs \
+  --output-dir ./patterns-raw \
+  --log-level INFO
 ```
 
-This logic is intentionally straightforward to make enrichment fast and explainable. It can be refined or replaced with ML classification or rule tuning based on real-world corpora.
+### Parameters
 
-The enrich command outputs a directory of enriched YAML files where each file corresponds to a pattern with additional inferred or normalized metadata fields. These enriched files are structured to support downstream clustering, graph export, and generative tasks.
+| Parameter      | Description                                             | Required | Example          |
+| -------------- | ------------------------------------------------------- | -------- | ---------------- |
+| `--config`     | Path to YAML configuration file                         | ✅        | `./config.yaml`  |
+| `--input-dir`  | Directory containing `.md`, `.txt`, or `.html` files    | ✅        | `./docs`         |
+| `--output-dir` | Directory to save extracted pattern YAML files          | ✅        | `./patterns-raw` |
+| `--log-level`  | Logging verbosity (`DEBUG`, `INFO`, `WARNING`, `ERROR`) | ❌        | `DEBUG`          |
 
-## Notes on the puput fo the enriched 
+### Output
 
-The `enrich` command outputs a **directory of enriched YAML files** where each file corresponds to a pattern with additional inferred or normalized metadata fields. These enriched files are structured to support downstream clustering, graph export, and generative tasks.
+* Individual YAML pattern files (e.g., `pattern-00001.yaml`)
+* Optional summary files (JSON or stats pending future updates)
 
-### ✅ Specifically, each YAML file in the output directory will contain:
+---
 
-| Field       | Description                                                     |
-| ----------- | --------------------------------------------------------------- |
-| `title`     | Inferred or normalized title (from `solution` or fallback text) |
-| `summary`   | Auto-generated or fallback summary string                       |
-| `keywords`  | Tokenized keywords extracted from the solution                  |
-| `problem`   | Inferred problem statement based on heuristics or rules         |
-| `solution`  | The original solution field from the input pattern              |
-| *\[others]* | Any other original fields present in the source pattern YAML    |
+## `enrich`
 
-### 📁 Output folder contents (example):
+**Purpose**: Enrich raw patterns with inferred metadata: `title`, `summary`, `keywords`, and `problem`.
 
+**Command Syntax**:
+
+```bash
+PYTHONPATH=src python -m pattern_language_miner.cli enrich \
+  --input-dir ./patterns-raw \
+  --output-dir ./patterns-enriched
 ```
-enriched/
-├── 001-install-docker.yaml
-├── 002-restart-service.yaml
-├── 003-remove-resource.yaml
-...
+
+### Parameters
+
+| Parameter      | Description                                 | Required | Example               |
+| -------------- | ------------------------------------------- | -------- | --------------------- |
+| `--input-dir`  | Directory with raw pattern YAML files       | ✅        | `./patterns-raw`      |
+| `--output-dir` | Output directory for enriched pattern files | ✅        | `./patterns-enriched` |
+
+### Output Structure
+
+Each enriched YAML file will include:
+
+| Field      | Description                                          |
+| ---------- | ---------------------------------------------------- |
+| `title`    | Inferred from the `solution` field                   |
+| `summary`  | Generated description of the pattern                 |
+| `keywords` | List of tokens extracted from the solution           |
+| `problem`  | Heuristically inferred problem based on the solution |
+
+---
+
+## `cluster`
+
+**Purpose**: Group semantically similar patterns using vector embeddings and clustering.
+
+**Command Syntax**:
+
+```bash
+PYTHONPATH=src python -m pattern_language_miner.cli cluster \
+  --input-dir ./patterns-enriched \
+  --output-dir ./patterns-cluster \
+  --field solution \
+  --batch-size 32
 ```
 
-### 🔧 Purpose:
+### Parameters
 
-This output becomes the canonical enriched dataset used for:
+| Parameter      | Description                                 | Required | Example               |
+| -------------- | ------------------------------------------- | -------- | --------------------- |
+| `--input-dir`  | Directory of enriched YAML files            | ✅        | `./patterns-enriched` |
+| `--output-dir` | Output folder for cluster results           | ✅        | `./patterns-cluster`  |
+| `--field`      | Field to embed for similarity clustering    | ❌        | `solution`            |
+| `--batch-size` | Embedding batch size for inference pipeline | ❌        | `32`                  |
 
-* `cluster`: semantic clustering
-* `generate-sentences`: creating prose summaries
-* `export-graph`: generating GraphML, Mermaid, Neo4j views
-* future inference/classification extensions (e.g., Bloom’s taxonomy, DITA)
+### Output
 
+* `clustered_patterns.json`: Patterns with cluster IDs
+* `clusters.png`: 2D visualization of the clusters
+
+---
+
+## `summarize-clusters`
+
+**Purpose**: Generate a human-readable summary of each cluster group.
+
+**Command Syntax**:
+
+```bash
+PYTHONPATH=src python -m pattern_language_miner.cli summarize-clusters \
+  --input-json ./patterns-cluster/clustered_patterns.json \
+  --output-path ./patterns-cluster/summary.md
+```
+
+### Parameters
+
+| Parameter       | Description                               | Required | Example                                      |
+| --------------- | ----------------------------------------- | -------- | -------------------------------------------- |
+| `--input-json`  | Clustered JSON with pattern metadata      | ✅        | `./patterns-cluster/clustered_patterns.json` |
+| `--output-path` | Markdown file to save the cluster summary | ✅        | `./patterns-cluster/summary.md`              |
+
+---
+
+## `generate-sentences`
+
+**Purpose**: Generate natural language descriptions from structured patterns.
+
+**Command Syntax**:
+
+```bash
+PYTHONPATH=src python -m pattern_language_miner.cli generate-sentences \
+  --input-dir ./patterns-enriched \
+  --output-path ./patterns-generated.md \
+  --format markdown
+```
+
+### Parameters
+
+| Parameter       | Description                                | Required | Example               |
+| --------------- | ------------------------------------------ | -------- | --------------------- |
+| `--input-dir`   | Directory of enriched YAML pattern files   | ✅        | `./patterns-enriched` |
+| `--output-path` | Destination for generated sentence content | ✅        | `./patterns.md`       |
+| `--format`      | Output format: `text`, `markdown`, `html`  | ❌        | `markdown`            |
+
+---
+
+## `export-graph`
+
+**Purpose**: Convert enriched patterns into graph representations for visualization or integration.
+
+**Command Syntax**:
+
+```bash
+PYTHONPATH=src python -m pattern_language_miner.cli export-graph \
+  --input-json ./patterns-cluster/clustered_patterns.json \
+  --format graphml \
+  --output-path ./patterns-graph.graphml
+```
+
+### Parameters
+
+| Parameter       | Description                                   | Required | Example                                      |
+| --------------- | --------------------------------------------- | -------- | -------------------------------------------- |
+| `--input-json`  | Path to the enriched or clustered JSON file   | ✅        | `./patterns-cluster/clustered_patterns.json` |
+| `--format`      | Format: `graphml`, `mermaid`, `neo4j`, `json` | ✅        | `graphml`                                    |
+| `--output-path` | Output file to save the graph                 | ✅        | `./patterns-graph.graphml`                   |
+
+---
+
+## Related Topics
+
+* [Configuration File Reference](configuration-file-reference.md)
+* [Using the Pattern Enricher](application-guide.md#enrich)
+* [Understanding Clusters](application-design.md#clustering)
+* [Troubleshooting Pattern Miner](troubleshooting.md)
+* [Set up and Installation](set-up-and-installation.md)
+* [Docker and Weaviate Integration](instructions_for_docker.md)

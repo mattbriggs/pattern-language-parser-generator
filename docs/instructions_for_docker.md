@@ -127,3 +127,10 @@ python -m pattern_language_miner.cli analyze --input-dir data --output-dir outpu
 * You must restart Weaviate if your OpenAI key changes.
 * Make sure port 8080 is not in use by another service.
 
+* [Command Reference](command-reference.md)
+* [config.yml Reference and Usage Guide](configuration-file-reference.md)
+* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md)
+* [Pattern Language Miner: How-To Manual](application-guide.md)
+* [Set up and installation of the Pattern Language Miner](set-up-and-installation.md)
+* [Troubleshooting](troubleshooting.md)
+* [Workflow](workflow.md)

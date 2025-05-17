@@ -180,3 +180,13 @@ PYTHONPATH=src python -m pattern_language_miner.cli analyze \
 ```
 
 3. Review generated YAML patterns to refine or enrich further.
+
+## Related content
+
+* [Command Reference](command-reference.md)
+* [Instructions for Docker and Weaviate Integration](instructions_for_docker.md)
+* [Pattern Language Miner: A Corpus-Driven Pattern Extraction and Generation Tool](application-design.md)
+* [Pattern Language Miner: How-To Manual](application-guide.md)
+* [Set up and installation of the Pattern Language Miner](set-up-and-installation.md)
+* [Troubleshooting](troubleshooting.md)
+* [Workflow](workflow.md)

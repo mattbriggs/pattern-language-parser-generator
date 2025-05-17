@@ -14,7 +14,8 @@ from pattern_language_miner.graph.graph_export import export_graph
 
 @click.group()
 @click.option("--log-level", default="INFO", help="Set the logging level.")
-def cli(log_level):
+@click.pass_context
+def cli(ctx, log_level):
     """Pattern Language Miner CLI."""
     logging.basicConfig(
         level=log_level.upper(),
@@ -24,16 +25,17 @@ def cli(log_level):
             logging.StreamHandler()
         ]
     )
+    ctx.ensure_object(dict)
+    ctx.obj["LOG_LEVEL"] = log_level
 
 
-@cli.command()
-@click.option("--config", required=True, type=click.Path(exists=True), help="Path to YAML configuration file.")
-@click.option("--input-dir", required=True, type=click.Path(exists=True), help="Input corpus directory.")
-@click.option("--output-dir", required=True, type=click.Path(), help="Output directory for extracted patterns.")
-def analyze(config, input_dir, output_dir):
-    """
-    Analyze a corpus directory using configured extraction settings.
-    """
+@cli.command(name="analyze")
+@click.option("--config", required=True, type=click.Path(exists=True), help="YAML config file defining pattern extraction settings.")
+@click.option("--input-dir", required=True, type=click.Path(exists=True), help="Input directory of documents to analyze.")
+@click.option("--output-dir", required=True, type=click.Path(), help="Directory to write extracted pattern YAML files.")
+@click.pass_context
+def analyze(ctx, config, input_dir, output_dir):
+    """Analyze a directory of Markdown/Text and extract structured patterns."""
     logging.info("🚀 Starting analysis...")
 
     extractor = PatternExtractor(
@@ -41,16 +43,17 @@ def analyze(config, input_dir, output_dir):
         input_dir=Path(input_dir),
         output_dir=Path(output_dir)
     )
+
     extractor.run()
 
     logging.info(f"✅ Wrote extracted patterns to {output_dir}")
 
 
 @cli.command()
-@click.option("--input-dir", required=True, type=click.Path(exists=True))
-@click.option("--output-dir", required=True, type=click.Path())
-@click.option("--field", default="solution", help="Field to cluster on.")
-@click.option("--batch-size", default=32, help="Batch size for embeddings.")
+@click.option("--input-dir", required=True, type=click.Path(exists=True), help="Directory of enriched YAML pattern files.")
+@click.option("--output-dir", required=True, type=click.Path(), help="Directory to write clustering results.")
+@click.option("--field", default="solution", help="Field to cluster on (e.g., solution).")
+@click.option("--batch-size", default=32, help="Batch size for embedding processing.")
 def cluster(input_dir, output_dir, field, batch_size):
     """Cluster patterns using semantic similarity."""
     logging.info("🚀 Starting pattern clustering...")
@@ -67,20 +70,24 @@ def cluster(input_dir, output_dir, field, batch_size):
     embeddings = clusterer.embed_patterns(batch_size=batch_size)
     reduced, cluster_ids = clusterer.cluster_and_reduce(embeddings)
 
-    clusterer.visualize_clusters(reduced, cluster_ids, output_dir / "clusters.png")
-    clusterer.generate_cluster_report(cluster_ids, output_dir / "clustered_patterns.json")
+    clusterer.visualize_clusters(
+        reduced, cluster_ids, output_dir / "clusters.png"
+    )
+    clusterer.generate_cluster_report(
+        cluster_ids, output_dir / "clustered_patterns.json"
+    )
 
     logging.info("✅ Clustering complete.")
 
 
 @cli.command(name="generate-sentences")
-@click.option("--input-dir", required=True, type=click.Path(exists=True))
-@click.option("--output-path", required=True, type=click.Path())
+@click.option("--input-dir", required=True, type=click.Path(exists=True), help="Directory of enriched YAML pattern files.")
+@click.option("--output-path", required=True, type=click.Path(), help="Path to write the generated sentences.")
 @click.option(
     "--format",
     type=click.Choice(["text", "markdown", "html"], case_sensitive=False),
     default="text",
-    help="Output format (text, markdown, html).",
+    help="Output format for generated sentences.",
 )
 def generate_sentences(input_dir, output_path, format):
     """Generate sentences from pattern YAML using Chomsky-style template."""
@@ -136,8 +143,8 @@ def summarize_clusters(input_json, output_path):
 
 
 @cli.command(name="enrich")
-@click.option("--input-dir", required=True, type=click.Path(exists=True))
-@click.option("--output-dir", required=True, type=click.Path())
+@click.option("--input-dir", required=True, type=click.Path(exists=True), help="Directory of raw extracted patterns.")
+@click.option("--output-dir", required=True, type=click.Path(), help="Directory to write enriched pattern files.")
 def enrich(input_dir, output_dir):
     """Enrich patterns with inferred fields like problem, title, summary, and keywords."""
     logging.info("🧠 Enriching patterns...")
