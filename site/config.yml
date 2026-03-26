@@ -1,0 +1,15 @@
+pattern_extraction:
+  file_type: md                         # Options: md, txt, html
+  frequency_threshold: 5                # Minimum occurrences for a pattern to be included
+  minimum_token_count: 5                # Minimum tokens per sentence to be analysed
+  scope: sentence                       # Analysis unit: line, sentence, or block
+  ngram_min: 2                          # Minimum n-gram size
+  ngram_max: 5                          # Maximum n-gram size
+  pos_filtering: true                   # Enable part-of-speech filtering
+  allowed_pos_tags:
+    - VB       # Verb, base form
+    - VBD      # Verb, past tense
+    - NN       # Noun, singular
+    - NNS      # Noun, plural
+  block_elements:
+    - paragraph

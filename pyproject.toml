@@ -50,15 +50,13 @@ dev = [
     "ruff>=0.4",
     "types-PyYAML",
     "types-beautifulsoup4",
-    "mkdocs>=1.5",
+    "mkdocs>=1.5,<2.0",
     "mkdocs-material>=9.5",
-    "mkdocs-mermaid2-plugin>=1.1",
     "pymdown-extensions>=10.7",
 ]
 docs = [
-    "mkdocs>=1.5",
+    "mkdocs>=1.5,<2.0",
     "mkdocs-material>=9.5",
-    "mkdocs-mermaid2-plugin>=1.1",
     "pymdown-extensions>=10.7",
 ]
 

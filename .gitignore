@@ -68,8 +68,8 @@ instance/
 # Scrapy stuff:
 .scrapy
 
-# Sphinx documentation
-docs/_build/
+# Sphinx documentation (not used — docs/ is now the MkDocs HTML output for GitHub Pages)
+# docs/_build/
 
 # PyBuilder
 .pybuilder/
@@ -143,8 +143,17 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
+# MkDocs: source is site/  →  built HTML output is docs/  (committed for GitHub Pages)
+# Neither site/ nor docs/ should be ignored.
+
+# virtual env
+
+#mac
+.mac/
+
+#Heretto
+.her/
+
 
 # mypy
 .mypy_cache/

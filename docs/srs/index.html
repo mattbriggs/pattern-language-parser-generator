@@ -1,0 +1,3237 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A corpus-driven Python tool for extracting, clustering, and cataloguing reusable content patterns from text, Markdown, and HTML documents.">
+      
+      
+        <meta name="author" content="Pattern Language Miner Contributors">
+      
+      
+        <link rel="canonical" href="https://your-org.github.io/pattern-language-miner/srs/">
+      
+      
+        <link rel="prev" href="../design/design-patterns/">
+      
+      
+        <link rel="next" href="../changelog/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+    
+    
+      
+        <title>Requirements - Pattern Language Miner</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#software-requirements-specification" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Pattern Language Miner" class="md-header__button md-logo" aria-label="Pattern Language Miner" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pattern Language Miner
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Requirements
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="deep-purple"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/your-org/pattern-language-miner" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pattern-language-miner
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../user-guide/getting-started/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../reference/cli/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../design/architecture/" class="md-tabs__link">
+          
+  
+  
+  Design
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Requirements
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../changelog/" class="md-tabs__link">
+          
+  
+  
+  Product
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Pattern Language Miner" class="md-nav__button md-logo" aria-label="Pattern Language Miner" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Pattern Language Miner
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/your-org/pattern-language-miner" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pattern-language-miner
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Commands
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../user-guide/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CLI Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker & Weaviate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Design
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../design/design-patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Requirements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Definitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 References
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-overall-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Overall Description
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Overall Description">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-product-perspective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Product Perspective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-product-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Product Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-user-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 User Classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Operating Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-use-case-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Use Case Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-use-case-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Use Case Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Use Case Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uc-01-extract-patterns-from-corpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-01: Extract Patterns from Corpus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-02-enrich-patterns-with-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-02: Enrich Patterns with Metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-03-cluster-patterns-by-similarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-03: Cluster Patterns by Similarity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-04-generate-readable-sentence-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-04: Generate Readable Sentence List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-05-export-knowledge-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-05: Export Knowledge Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-08-automate-full-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-08: Automate Full Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Functional Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-enrichment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Enrichment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Clustering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-graph-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Graph Export
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Non-Functional Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-class-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Class Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Class Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-core-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Core Domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-parser-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Parser Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-extraction-and-enrichment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Extraction and Enrichment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Clustering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-pipeline-and-observer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Pipeline and Observer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-graph-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Graph Export
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-sequence-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Sequence Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Sequence Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-full-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Full Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-config-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Config Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-state-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. State Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-component-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Component Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Product
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Product
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="On this page">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Introduction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-definitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Definitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 References
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-overall-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Overall Description
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Overall Description">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-product-perspective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Product Perspective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-product-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Product Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-user-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 User Classes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-operating-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Operating Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-constraints" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Constraints
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Use Cases
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Use Cases">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-use-case-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Use Case Diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-use-case-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Use Case Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3.2 Use Case Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uc-01-extract-patterns-from-corpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-01: Extract Patterns from Corpus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-02-enrich-patterns-with-metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-02: Enrich Patterns with Metadata
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-03-cluster-patterns-by-similarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-03: Cluster Patterns by Similarity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-04-generate-readable-sentence-list" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-04: Generate Readable Sentence List
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-05-export-knowledge-graph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-05: Export Knowledge Graph
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uc-08-automate-full-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UC-08: Automate Full Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Functional Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Functional Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-parsing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Parsing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-enrichment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Enrichment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Clustering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-graph-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 Graph Export
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 Logging
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-non-functional-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Non-Functional Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-class-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Class Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Class Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-core-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Core Domain
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-parser-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Parser Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-extraction-and-enrichment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 Extraction and Enrichment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 Clustering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65-pipeline-and-observer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 Pipeline and Observer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66-graph-export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 Graph Export
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-sequence-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Sequence Diagrams
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Sequence Diagrams">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-full-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Full Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-config-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Config Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-state-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. State Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-component-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Component Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-acceptance-criteria" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Acceptance Criteria
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="software-requirements-specification">Software Requirements Specification<a class="headerlink" href="#software-requirements-specification" title="Permanent link">&para;</a></h1>
+<p><strong>Product:</strong> Pattern Language Miner
+<strong>Version:</strong> 1.0.0
+<strong>Date:</strong> 2024-03-01
+<strong>Status:</strong> Approved</p>
+<hr />
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
+<h3 id="11-purpose">1.1 Purpose<a class="headerlink" href="#11-purpose" title="Permanent link">&para;</a></h3>
+<p>This Software Requirements Specification (SRS) describes the functional and non-functional requirements for the <strong>Pattern Language Miner</strong> — a corpus-driven command-line tool for extracting, enriching, clustering, and exporting reusable content patterns from text, Markdown, and HTML documents.</p>
+<h3 id="12-scope">1.2 Scope<a class="headerlink" href="#12-scope" title="Permanent link">&para;</a></h3>
+<p>Pattern Language Miner automates the discovery of recurring linguistic structures in document corpora. It is targeted at technical writers, knowledge-management practitioners, information architects, and NLP engineers who need to build structured pattern libraries from unstructured content.</p>
+<h3 id="13-definitions">1.3 Definitions<a class="headerlink" href="#13-definitions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Term</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pattern</strong></td>
+<td>A structured, reusable content unit with context, problem, solution, and example fields</td>
+</tr>
+<tr>
+<td><strong>Corpus</strong></td>
+<td>A collection of documents used as the analysis input</td>
+</tr>
+<tr>
+<td><strong>N-gram</strong></td>
+<td>A contiguous sequence of <em>n</em> tokens from a text</td>
+</tr>
+<tr>
+<td><strong>Enrichment</strong></td>
+<td>Automated inference of metadata fields (title, summary, keywords) for a raw pattern</td>
+</tr>
+<tr>
+<td><strong>Cluster</strong></td>
+<td>A group of semantically similar patterns discovered by machine learning</td>
+</tr>
+<tr>
+<td><strong>Embedding</strong></td>
+<td>A numeric vector representation of text produced by a sentence-transformer model</td>
+</tr>
+<tr>
+<td><strong>UMAP</strong></td>
+<td>Uniform Manifold Approximation and Projection — a dimensionality reduction algorithm</td>
+</tr>
+<tr>
+<td><strong>KMeans</strong></td>
+<td>A centroid-based clustering algorithm</td>
+</tr>
+</tbody>
+</table>
+<h3 id="14-references">1.4 References<a class="headerlink" href="#14-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Christopher Alexander, <em>A Pattern Language</em> (1977)</li>
+<li>Robert E. Horn, <em>Mapping Hypertext</em> (1989)</li>
+<li>NLTK Documentation: <a href="https://www.nltk.org/">https://www.nltk.org/</a></li>
+<li>Sentence-Transformers: <a href="https://www.sbert.net/">https://www.sbert.net/</a></li>
+<li>Weaviate Documentation: <a href="https://weaviate.io/developers/weaviate">https://weaviate.io/developers/weaviate</a></li>
+</ul>
+<hr />
+<h2 id="2-overall-description">2. Overall Description<a class="headerlink" href="#2-overall-description" title="Permanent link">&para;</a></h2>
+<h3 id="21-product-perspective">2.1 Product Perspective<a class="headerlink" href="#21-product-perspective" title="Permanent link">&para;</a></h3>
+<p>Pattern Language Miner is a standalone command-line application with no mandatory external service dependencies. An optional Weaviate vector-database integration enables semantic similarity search over the pattern library.</p>
+<pre class="mermaid"><code>graph LR
+    subgraph External
+        W[Weaviate&lt;br&gt;Optional]
+        HF[HuggingFace&lt;br&gt;Model Cache]
+    end
+    subgraph PLM [Pattern Language Miner]
+        CLI[CLI]
+        CORE[Core Pipeline]
+    end
+    USER[User] --&gt;|commands| CLI
+    CLI --&gt; CORE
+    CORE -.-&gt;|upsert / query| W
+    CORE --&gt;|download on first run| HF</code></pre>
+<h3 id="22-product-functions">2.2 Product Functions<a class="headerlink" href="#22-product-functions" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Parse Markdown, HTML, and plain-text documents into processable units</li>
+<li>Extract frequent lexical n-gram patterns using configurable parameters</li>
+<li>Enrich raw patterns with inferred metadata</li>
+<li>Cluster patterns by semantic similarity and produce visual output</li>
+<li>Generate human-readable sentences from structured patterns</li>
+<li>Export pattern libraries as knowledge graphs in multiple formats</li>
+<li>Optionally index patterns in Weaviate for semantic search</li>
+</ol>
+<h3 id="23-user-classes">2.3 User Classes<a class="headerlink" href="#23-user-classes" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>User Class</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Technical Writer</strong></td>
+<td>Mines their documentation corpus to identify reusable content structures</td>
+</tr>
+<tr>
+<td><strong>Information Architect</strong></td>
+<td>Builds pattern libraries for content governance and reuse strategies</td>
+</tr>
+<tr>
+<td><strong>NLP Engineer</strong></td>
+<td>Integrates the tool into automated content-processing pipelines</td>
+</tr>
+<tr>
+<td><strong>Knowledge Manager</strong></td>
+<td>Catalogues institutional knowledge from existing documentation</td>
+</tr>
+<tr>
+<td><strong>DevOps / Automation Engineer</strong></td>
+<td>Runs the pipeline in CI/CD to keep pattern libraries current</td>
+</tr>
+</tbody>
+</table>
+<h3 id="24-operating-environment">2.4 Operating Environment<a class="headerlink" href="#24-operating-environment" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Python 3.10 or later on Linux, macOS, or Windows</li>
+<li>Docker (optional, for Weaviate integration)</li>
+<li>Internet access on first run (to download NLTK data and sentence-transformer models)</li>
+</ul>
+<h3 id="25-constraints">2.5 Constraints<a class="headerlink" href="#25-constraints" title="Permanent link">&para;</a></h3>
+<ul>
+<li>NLTK sentence tokenisation is English-centric; multilingual corpora may yield lower quality patterns</li>
+<li>Sentence-transformer model inference is CPU-bound; large corpora benefit from GPU acceleration</li>
+<li>Weaviate integration requires OpenAI API key for <code>text2vec-openai</code> module</li>
+</ul>
+<hr />
+<h2 id="3-use-cases">3. Use Cases<a class="headerlink" href="#3-use-cases" title="Permanent link">&para;</a></h2>
+<h3 id="31-use-case-diagram">3.1 Use Case Diagram<a class="headerlink" href="#31-use-case-diagram" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>graph TD
+    TW([Technical Writer])
+    IA([Information Architect])
+    NLP([NLP Engineer])
+    KM([Knowledge Manager])
+    DE([DevOps Engineer])
+
+    UC1[UC-01: Extract patterns from corpus]
+    UC2[UC-02: Enrich patterns with metadata]
+    UC3[UC-03: Cluster patterns by similarity]
+    UC4[UC-04: Generate readable sentence list]
+    UC5[UC-05: Export knowledge graph]
+    UC6[UC-06: Summarise cluster groups]
+    UC7[UC-07: Search patterns semantically]
+    UC8[UC-08: Automate full pipeline]
+    UC9[UC-09: Configure extraction parameters]
+
+    TW --&gt; UC1
+    TW --&gt; UC2
+    TW --&gt; UC4
+    IA --&gt; UC1
+    IA --&gt; UC3
+    IA --&gt; UC5
+    IA --&gt; UC6
+    NLP --&gt; UC1
+    NLP --&gt; UC3
+    NLP --&gt; UC7
+    NLP --&gt; UC8
+    KM --&gt; UC2
+    KM --&gt; UC6
+    DE --&gt; UC8
+    DE --&gt; UC9</code></pre>
+<hr />
+<h3 id="32-use-case-specifications">3.2 Use Case Specifications<a class="headerlink" href="#32-use-case-specifications" title="Permanent link">&para;</a></h3>
+<h4 id="uc-01-extract-patterns-from-corpus">UC-01: Extract Patterns from Corpus<a class="headerlink" href="#uc-01-extract-patterns-from-corpus" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Actor</strong></td>
+<td>Technical Writer, Information Architect, NLP Engineer</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Discover all recurring n-gram patterns in a document directory</td>
+</tr>
+<tr>
+<td><strong>Preconditions</strong></td>
+<td>Input directory exists and contains supported files; <code>config.yaml</code> is present</td>
+</tr>
+<tr>
+<td><strong>Main Flow</strong></td>
+<td>1. User runs <code>pattern-miner analyze --config … --input-dir … --output-dir …</code> <br>2. System validates config against JSON Schema <br>3. System reads all files matching <code>file_type</code> <br>4. System tokenises and counts n-grams <br>5. System writes one YAML file per pattern meeting <code>frequency_threshold</code></td>
+</tr>
+<tr>
+<td><strong>Postconditions</strong></td>
+<td>Output directory contains numbered YAML pattern files</td>
+</tr>
+<tr>
+<td><strong>Alternate Flow</strong></td>
+<td>If no files match the extension, system logs a warning and exits cleanly</td>
+</tr>
+<tr>
+<td><strong>Exception Flow</strong></td>
+<td>If config fails validation, system raises <code>ValidationError</code> with a descriptive message</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="uc-02-enrich-patterns-with-metadata">UC-02: Enrich Patterns with Metadata<a class="headerlink" href="#uc-02-enrich-patterns-with-metadata" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Actor</strong></td>
+<td>Technical Writer, Knowledge Manager</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Add human-readable metadata to raw patterns</td>
+</tr>
+<tr>
+<td><strong>Preconditions</strong></td>
+<td>Raw pattern YAML files exist in the input directory</td>
+</tr>
+<tr>
+<td><strong>Main Flow</strong></td>
+<td>1. User runs <code>pattern-miner enrich --input-dir … --output-dir …</code> <br>2. System reads each YAML file <br>3. For each pattern, system infers missing <code>title</code>, <code>summary</code>, <code>problem</code>, and <code>keywords</code> <br>4. System writes enriched YAML to output directory</td>
+</tr>
+<tr>
+<td><strong>Postconditions</strong></td>
+<td>Each pattern file has <code>title</code>, <code>summary</code>, <code>problem</code>, and <code>keywords</code> fields</td>
+</tr>
+<tr>
+<td><strong>Alternate Flow</strong></td>
+<td>Existing fields are preserved unchanged</td>
+</tr>
+<tr>
+<td><strong>Exception Flow</strong></td>
+<td>Malformed YAML files are skipped with a WARNING log entry</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="uc-03-cluster-patterns-by-similarity">UC-03: Cluster Patterns by Similarity<a class="headerlink" href="#uc-03-cluster-patterns-by-similarity" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Actor</strong></td>
+<td>Information Architect, NLP Engineer</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Group semantically similar patterns and visualise the clusters</td>
+</tr>
+<tr>
+<td><strong>Preconditions</strong></td>
+<td>Enriched pattern YAML files exist in the input directory</td>
+</tr>
+<tr>
+<td><strong>Main Flow</strong></td>
+<td>1. User runs <code>pattern-miner cluster --input-dir … --output-dir … --n-clusters N</code> <br>2. System embeds the specified field using a sentence-transformer model <br>3. System runs KMeans clustering <br>4. System reduces dimensions with UMAP <br>5. System saves <code>clusters.png</code> and <code>clustered_patterns.json</code></td>
+</tr>
+<tr>
+<td><strong>Postconditions</strong></td>
+<td>Scatter plot and JSON report with cluster assignments are written</td>
+</tr>
+<tr>
+<td><strong>Alternate Flow</strong></td>
+<td>If <code>n-clusters &gt; n_samples</code>, cluster count is reduced automatically</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="uc-04-generate-readable-sentence-list">UC-04: Generate Readable Sentence List<a class="headerlink" href="#uc-04-generate-readable-sentence-list" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Actor</strong></td>
+<td>Technical Writer</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Produce a human-readable output file from the pattern library</td>
+</tr>
+<tr>
+<td><strong>Preconditions</strong></td>
+<td>Enriched pattern YAML files exist</td>
+</tr>
+<tr>
+<td><strong>Main Flow</strong></td>
+<td>1. User runs <code>pattern-miner generate-sentences --input-dir … --output-path … --format FORMAT</code> <br>2. System applies grammar template to each pattern <br>3. System writes formatted output (text / Markdown / HTML)</td>
+</tr>
+<tr>
+<td><strong>Postconditions</strong></td>
+<td>Output file exists and contains one sentence per pattern</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="uc-05-export-knowledge-graph">UC-05: Export Knowledge Graph<a class="headerlink" href="#uc-05-export-knowledge-graph" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Actor</strong></td>
+<td>Information Architect</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Export the pattern library as a machine-readable or embeddable graph</td>
+</tr>
+<tr>
+<td><strong>Preconditions</strong></td>
+<td><code>clustered_patterns.json</code> exists</td>
+</tr>
+<tr>
+<td><strong>Main Flow</strong></td>
+<td>1. User runs <code>pattern-miner export-graph --input-json … --output-path … --format FORMAT</code> <br>2. System builds a <code>networkx.DiGraph</code> with pattern, tag, concept, and related nodes <br>3. System serialises to the requested format</td>
+</tr>
+<tr>
+<td><strong>Postconditions</strong></td>
+<td>Graph file is written in the requested format</td>
+</tr>
+<tr>
+<td><strong>Alternate Flow</strong></td>
+<td>If an invalid format is supplied, a <code>ValueError</code> is raised</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="uc-08-automate-full-pipeline">UC-08: Automate Full Pipeline<a class="headerlink" href="#uc-08-automate-full-pipeline" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Detail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Actor</strong></td>
+<td>NLP Engineer, DevOps Engineer</td>
+</tr>
+<tr>
+<td><strong>Goal</strong></td>
+<td>Run the entire pipeline in a single automated script</td>
+</tr>
+<tr>
+<td><strong>Preconditions</strong></td>
+<td>Config file and document corpus are available</td>
+</tr>
+<tr>
+<td><strong>Main Flow</strong></td>
+<td>1. Engineer writes a shell script calling all six CLI commands in sequence <br>2. Each command writes output that becomes the next command's input <br>3. Script exits non-zero on any command failure</td>
+</tr>
+<tr>
+<td><strong>Postconditions</strong></td>
+<td>All output artefacts (YAML, JSON, PNG, graph file) are present</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-functional-requirements">4. Functional Requirements<a class="headerlink" href="#4-functional-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="41-parsing">4.1 Parsing<a class="headerlink" href="#41-parsing" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-01</td>
+<td>The system SHALL support parsing of <code>.txt</code>, <code>.md</code>, <code>.markdown</code>, <code>.html</code>, and <code>.htm</code> files</td>
+</tr>
+<tr>
+<td>FR-02</td>
+<td>The system SHALL use a factory method to select the parser based on file extension</td>
+</tr>
+<tr>
+<td>FR-03</td>
+<td>The system SHALL log a WARNING and continue when a file cannot be read</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-extraction">4.2 Extraction<a class="headerlink" href="#42-extraction" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-04</td>
+<td>The system SHALL extract n-grams between <code>ngram_min</code> and <code>ngram_max</code> tokens in length</td>
+</tr>
+<tr>
+<td>FR-05</td>
+<td>The system SHALL filter n-grams below <code>frequency_threshold</code></td>
+</tr>
+<tr>
+<td>FR-06</td>
+<td>The system SHALL support three scope modes: <code>line</code>, <code>sentence</code>, and <code>block</code></td>
+</tr>
+<tr>
+<td>FR-07</td>
+<td>The system SHALL optionally filter sentences by POS tags when <code>pos_filtering</code> is enabled</td>
+</tr>
+<tr>
+<td>FR-08</td>
+<td>The system SHALL validate <code>config.yaml</code> against the bundled JSON Schema on startup</td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-enrichment">4.3 Enrichment<a class="headerlink" href="#43-enrichment" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-09</td>
+<td>The system SHALL infer <code>title</code> from the <code>solution</code> field when absent</td>
+</tr>
+<tr>
+<td>FR-10</td>
+<td>The system SHALL generate a <code>summary</code> sentence when absent</td>
+</tr>
+<tr>
+<td>FR-11</td>
+<td>The system SHALL infer <code>problem</code> from the <code>solution</code> verb when absent</td>
+</tr>
+<tr>
+<td>FR-12</td>
+<td>The system SHALL extract <code>keywords</code> from the <code>solution</code> field</td>
+</tr>
+<tr>
+<td>FR-13</td>
+<td>The system SHALL preserve all existing field values unchanged</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44-clustering">4.4 Clustering<a class="headerlink" href="#44-clustering" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-14</td>
+<td>The system SHALL embed pattern fields using a sentence-transformer model</td>
+</tr>
+<tr>
+<td>FR-15</td>
+<td>The system SHALL cluster embeddings using KMeans with a configurable <code>n-clusters</code></td>
+</tr>
+<tr>
+<td>FR-16</td>
+<td>The system SHALL reduce embeddings to 2-D using UMAP</td>
+</tr>
+<tr>
+<td>FR-17</td>
+<td>The system SHALL save a scatter plot PNG of the reduced embeddings</td>
+</tr>
+<tr>
+<td>FR-18</td>
+<td>The system SHALL save a JSON report mapping each pattern to its cluster ID</td>
+</tr>
+</tbody>
+</table>
+<h3 id="45-generation">4.5 Generation<a class="headerlink" href="#45-generation" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-19</td>
+<td>The system SHALL produce output in <code>text</code>, <code>markdown</code>, and <code>html</code> formats</td>
+</tr>
+<tr>
+<td>FR-20</td>
+<td>The system SHALL apply a configurable template to each pattern when using the transform module</td>
+</tr>
+</tbody>
+</table>
+<h3 id="46-graph-export">4.6 Graph Export<a class="headerlink" href="#46-graph-export" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-21</td>
+<td>The system SHALL export graphs as GraphML</td>
+</tr>
+<tr>
+<td>FR-22</td>
+<td>The system SHALL export graphs as Mermaid diagram syntax</td>
+</tr>
+<tr>
+<td>FR-23</td>
+<td>The system SHALL export graphs as Neo4j Cypher scripts</td>
+</tr>
+<tr>
+<td>FR-24</td>
+<td>The system SHALL export graphs as node-link JSON</td>
+</tr>
+<tr>
+<td>FR-25</td>
+<td>The system SHALL raise a <code>ValueError</code> for unrecognised format strings</td>
+</tr>
+</tbody>
+</table>
+<h3 id="47-logging">4.7 Logging<a class="headerlink" href="#47-logging" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FR-26</td>
+<td>The system SHALL write logs to <code>logs/pattern_miner.log</code> and to stdout</td>
+</tr>
+<tr>
+<td>FR-27</td>
+<td>The system SHALL support log-level configuration via <code>--log-level</code></td>
+</tr>
+<tr>
+<td>FR-28</td>
+<td>All modules SHALL use module-scoped loggers (<code>logging.getLogger(__name__)</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-non-functional-requirements">5. Non-Functional Requirements<a class="headerlink" href="#5-non-functional-requirements" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Category</th>
+<th>Requirement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFR-01</td>
+<td><strong>Performance</strong></td>
+<td>The extraction step SHALL process a 1,000-file corpus in under 5 minutes on standard hardware (4-core CPU, 8 GB RAM)</td>
+</tr>
+<tr>
+<td>NFR-02</td>
+<td><strong>Performance</strong></td>
+<td>Embedding and clustering SHALL complete in under 10 minutes for 10,000 patterns on CPU</td>
+</tr>
+<tr>
+<td>NFR-03</td>
+<td><strong>Reliability</strong></td>
+<td>Any single malformed input file SHALL not halt the pipeline</td>
+</tr>
+<tr>
+<td>NFR-04</td>
+<td><strong>Usability</strong></td>
+<td>All CLI commands SHALL provide <code>--help</code> text</td>
+</tr>
+<tr>
+<td>NFR-05</td>
+<td><strong>Usability</strong></td>
+<td>All error messages SHALL be descriptive and actionable</td>
+</tr>
+<tr>
+<td>NFR-06</td>
+<td><strong>Maintainability</strong></td>
+<td>All public modules, classes, and functions SHALL have Google-style Sphinx docstrings</td>
+</tr>
+<tr>
+<td>NFR-07</td>
+<td><strong>Maintainability</strong></td>
+<td>Code SHALL comply with PEP 8 and pass <code>ruff</code> linting</td>
+</tr>
+<tr>
+<td>NFR-08</td>
+<td><strong>Testability</strong></td>
+<td>Unit test coverage SHALL be ≥ 80% of all non-trivial code paths</td>
+</tr>
+<tr>
+<td>NFR-09</td>
+<td><strong>Portability</strong></td>
+<td>The tool SHALL run on Python 3.10, 3.11, and 3.12 on Linux, macOS, and Windows</td>
+</tr>
+<tr>
+<td>NFR-10</td>
+<td><strong>Security</strong></td>
+<td>The tool SHALL NOT execute any shell commands from user-supplied input</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-class-diagrams">6. Class Diagrams<a class="headerlink" href="#6-class-diagrams" title="Permanent link">&para;</a></h2>
+<h3 id="61-core-domain">6.1 Core Domain<a class="headerlink" href="#61-core-domain" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class Pattern {
+        +pattern_id: str
+        +name: str
+        +level: str
+        +context: str
+        +problem: str
+        +solution: str
+        +example: str
+        +sources: list
+        +subpatterns: list
+        +superpattern: str
+        +related_patterns: list
+        +info_type: str
+        +frequency: int
+        +to_dict() dict
+    }</code></pre>
+<h3 id="62-parser-hierarchy">6.2 Parser Hierarchy<a class="headerlink" href="#62-parser-hierarchy" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class BaseParser {
+        &lt;&lt;abstract&gt;&gt;
+        +parse(content: str) dict
+    }
+    class TextParser {
+        +parse(content: str) dict
+    }
+    class MarkdownParser {
+        +parse(content: str) dict
+    }
+    class HTMLParser {
+        +parse(content: str) dict
+    }
+    class ParserFactory {
+        +get_parser(ext: str) BaseParser
+    }
+    BaseParser &lt;|-- TextParser
+    BaseParser &lt;|-- MarkdownParser
+    BaseParser &lt;|-- HTMLParser
+    ParserFactory ..&gt; BaseParser : creates</code></pre>
+<h3 id="63-extraction-and-enrichment">6.3 Extraction and Enrichment<a class="headerlink" href="#63-extraction-and-enrichment" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class PatternExtractor {
+        +input_dir: Path
+        +output_dir: Path
+        +frequency_threshold: int
+        +ngram_min: int
+        +ngram_max: int
+        +scope: str
+        +run()
+        +extract_patterns(docs) list
+        -_load_documents() list
+        -_split_scope(doc) list
+        -_write_patterns(patterns)
+    }
+    class PatternEnricher {
+        +input_dir: Path
+        +output_dir: Path
+        +run()
+        -_load_yaml(path) dict
+        -_write_yaml(data, path)
+    }
+    class enrich_pattern {
+        &lt;&lt;function&gt;&gt;
+        enrich_pattern(pattern) dict
+    }
+    PatternEnricher ..&gt; enrich_pattern : delegates to</code></pre>
+<h3 id="64-clustering">6.4 Clustering<a class="headerlink" href="#64-clustering" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class PatternClusterer {
+        +input_dir: Path
+        +field: str
+        +model_name: str
+        +patterns: list
+        +load_patterns()
+        +embed_patterns(batch_size) ndarray
+        +cluster_and_reduce(embeddings, n_clusters) tuple
+        +visualize_clusters(reduced, ids, path)
+        +generate_cluster_report(ids, path)
+    }
+    class SemanticCluster {
+        +similarity_threshold: float
+        +cluster_sentences(sentences) list
+    }</code></pre>
+<h3 id="65-pipeline-and-observer">6.5 Pipeline and Observer<a class="headerlink" href="#65-pipeline-and-observer" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class Pipeline {
+        +steps: list~PipelineStep~
+        +event_bus: EventBus
+        +execute(context: dict) dict
+    }
+    class PipelineStep {
+        &lt;&lt;abstract&gt;&gt;
+        +name: str
+        +run(context: dict) dict
+    }
+    class EventBus {
+        -_handlers: dict
+        +subscribe(event_type, handler)
+        +publish(event: PipelineEvent)
+    }
+    class PipelineEvent {
+        +event_type: PipelineEventType
+        +step_name: str
+        +payload: dict
+    }
+    class PipelineEventType {
+        &lt;&lt;enumeration&gt;&gt;
+        PIPELINE_START
+        STEP_START
+        STEP_COMPLETE
+        STEP_ERROR
+        PIPELINE_COMPLETE
+    }
+    Pipeline --&gt; PipelineStep
+    Pipeline --&gt; EventBus
+    EventBus --&gt; PipelineEvent
+    PipelineEvent --&gt; PipelineEventType</code></pre>
+<h3 id="66-graph-export">6.6 Graph Export<a class="headerlink" href="#66-graph-export" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>classDiagram
+    class GraphExporter {
+        +patterns: list
+        +graph: DiGraph
+        +build_graph()
+        +export_graphml(path)
+        +export_mermaid(path)
+        +export_neo4j(path)
+        +export_json(path)
+        -_sanitize_id(text) str
+    }
+    class export_graph {
+        &lt;&lt;function&gt;&gt;
+        export_graph(graph, path, format_)
+    }
+    export_graph ..&gt; GraphExporter : delegates to</code></pre>
+<hr />
+<h2 id="7-sequence-diagrams">7. Sequence Diagrams<a class="headerlink" href="#7-sequence-diagrams" title="Permanent link">&para;</a></h2>
+<h3 id="71-full-pipeline">7.1 Full Pipeline<a class="headerlink" href="#71-full-pipeline" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    actor User
+    participant CLI
+    participant PatternExtractor
+    participant PatternEnricher
+    participant PatternClusterer
+    participant SentenceGenerator
+
+    User-&gt;&gt;CLI: analyze --config --input-dir --output-dir
+    CLI-&gt;&gt;PatternExtractor: run()
+    PatternExtractor--&gt;&gt;CLI: YAML files written
+
+    User-&gt;&gt;CLI: enrich --input-dir --output-dir
+    CLI-&gt;&gt;PatternEnricher: run()
+    PatternEnricher--&gt;&gt;CLI: enriched YAML files written
+
+    User-&gt;&gt;CLI: cluster --input-dir --output-dir
+    CLI-&gt;&gt;PatternClusterer: load_patterns()
+    PatternClusterer--&gt;&gt;CLI: patterns loaded
+    CLI-&gt;&gt;PatternClusterer: embed_patterns()
+    PatternClusterer--&gt;&gt;CLI: embeddings
+    CLI-&gt;&gt;PatternClusterer: cluster_and_reduce()
+    PatternClusterer--&gt;&gt;CLI: reduced + cluster_ids
+    CLI-&gt;&gt;PatternClusterer: generate_cluster_report()
+    PatternClusterer--&gt;&gt;CLI: JSON + PNG written
+
+    User-&gt;&gt;CLI: generate-sentences
+    CLI-&gt;&gt;SentenceGenerator: run()
+    SentenceGenerator--&gt;&gt;CLI: formatted output written</code></pre>
+<h3 id="72-config-validation">7.2 Config Validation<a class="headerlink" href="#72-config-validation" title="Permanent link">&para;</a></h3>
+<pre class="mermaid"><code>sequenceDiagram
+    participant PatternExtractor
+    participant load_and_validate_config
+    participant YAML
+    participant JSONSchema
+
+    PatternExtractor-&gt;&gt;load_and_validate_config: (config_path, schema_path)
+    load_and_validate_config-&gt;&gt;YAML: safe_load(config_path)
+    YAML--&gt;&gt;load_and_validate_config: config_dict
+    load_and_validate_config-&gt;&gt;JSONSchema: validate(config_dict, schema)
+    alt Valid
+        JSONSchema--&gt;&gt;load_and_validate_config: OK
+        load_and_validate_config--&gt;&gt;PatternExtractor: config_dict
+    else Invalid
+        JSONSchema--&gt;&gt;load_and_validate_config: ValidationError
+        load_and_validate_config--&gt;&gt;PatternExtractor: raises ValidationError
+    end</code></pre>
+<hr />
+<h2 id="8-state-diagram">8. State Diagram<a class="headerlink" href="#8-state-diagram" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>stateDiagram-v2
+    [*] --&gt; Idle
+    Idle --&gt; Extracting : analyze command
+    Extracting --&gt; RawPatterns : patterns written
+    RawPatterns --&gt; Enriching : enrich command
+    Enriching --&gt; EnrichedPatterns : enrichment complete
+    EnrichedPatterns --&gt; Clustering : cluster command
+    EnrichedPatterns --&gt; Generating : generate-sentences command
+    EnrichedPatterns --&gt; Exporting : export-graph command
+    Clustering --&gt; Clustered : report + plot written
+    Clustered --&gt; Summarising : summarize-clusters command
+    Summarising --&gt; Done
+    Generating --&gt; Done
+    Exporting --&gt; Done
+    Done --&gt; [*]</code></pre>
+<hr />
+<h2 id="9-component-diagram">9. Component Diagram<a class="headerlink" href="#9-component-diagram" title="Permanent link">&para;</a></h2>
+<pre class="mermaid"><code>graph TB
+    subgraph CLI Layer
+        CLI[cli.py]
+    end
+    subgraph Core
+        WALK[walker.py]
+        PARSE[parser/]
+        EXTRACT[extractor/]
+        ENRICH[enricher/]
+        CLUSTER[cluster/]
+        GEN[generator/]
+        GRAPH[graph/]
+        WRITE[writer/]
+    end
+    subgraph Infrastructure
+        UTILS[utils/]
+        SCHEMA[schema/]
+        PIPE[pipeline/]
+    end
+    subgraph External
+        NLTK[NLTK]
+        ST[SentenceTransformers]
+        NX[NetworkX]
+        WV[Weaviate Optional]
+    end
+
+    CLI --&gt; WALK
+    CLI --&gt; EXTRACT
+    CLI --&gt; ENRICH
+    CLI --&gt; CLUSTER
+    CLI --&gt; GEN
+    CLI --&gt; GRAPH
+    WALK --&gt; PARSE
+    EXTRACT --&gt; UTILS
+    EXTRACT --&gt; SCHEMA
+    ENRICH --&gt; UTILS
+    EXTRACT --&gt; NLTK
+    CLUSTER --&gt; ST
+    GRAPH --&gt; NX
+    ENRICH -.-&gt; WV</code></pre>
+<hr />
+<h2 id="10-acceptance-criteria">10. Acceptance Criteria<a class="headerlink" href="#10-acceptance-criteria" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AC-01</td>
+<td><code>pattern-miner analyze</code> produces at least one YAML file for a corpus with repeated phrases</td>
+</tr>
+<tr>
+<td>AC-02</td>
+<td><code>pattern-miner enrich</code> adds <code>title</code>, <code>summary</code>, <code>problem</code>, and <code>keywords</code> to all patterns</td>
+</tr>
+<tr>
+<td>AC-03</td>
+<td><code>pattern-miner cluster</code> produces <code>clusters.png</code> and <code>clustered_patterns.json</code></td>
+</tr>
+<tr>
+<td>AC-04</td>
+<td><code>pattern-miner generate-sentences</code> produces valid Markdown, HTML, and plain-text output</td>
+</tr>
+<tr>
+<td>AC-05</td>
+<td><code>pattern-miner export-graph</code> produces valid output for all four format options</td>
+</tr>
+<tr>
+<td>AC-06</td>
+<td>Invalid <code>config.yaml</code> produces a descriptive error and non-zero exit code</td>
+</tr>
+<tr>
+<td>AC-07</td>
+<td>All unit tests pass (<code>pytest tests/</code>) with no errors</td>
+</tr>
+<tr>
+<td>AC-08</td>
+<td>All integration tests pass</td>
+</tr>
+<tr>
+<td>AC-09</td>
+<td><code>ruff check src/</code> reports zero violations</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../design/design-patterns/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Design Patterns">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Design Patterns
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../changelog/" class="md-footer__link md-footer__link--next" aria-label="Next: Changelog">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Changelog
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Pattern Language Miner Contributors
+    </div>
+  
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/your-org/pattern-language-miner" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

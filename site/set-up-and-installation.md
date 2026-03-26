@@ -72,7 +72,7 @@ Your API key securely authenticates your requests, tracks usage, and ensures dat
 Load Docker compose file and check availability. The Docker Compose file defines a single containerized service named weaviate configured to run the Weaviate vector database with OpenAI integration.
 
 1. Install Docker Desktop if not already installed. 
-2. Load the Docker [compose file](docker-compose.yml).
+2. Load the Docker Compose file (`docker-compose.yml`):
     ```bash
     docker compose -f docker-compose.yml up -d
     ```
