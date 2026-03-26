@@ -1,7 +1,49 @@
-from typing import List, Optional, Dict
+"""Core ``Pattern`` data class.
+
+A :class:`Pattern` represents a single reusable content pattern extracted
+from a document corpus.  It maps directly to the JSON Schema defined in
+``schema/pattern-schema.json``.
+"""
+
+from __future__ import annotations
+
+from typing import Any, Dict, List, Optional
 
 
 class Pattern:
+    """Represent a reusable content pattern extracted from a document corpus.
+
+    A pattern encapsulates the *context*, *problem*, and *solution* triad
+    made popular by Christopher Alexander's Pattern Language, extended with
+    provenance and hierarchical relationship metadata.
+
+    Args:
+        pattern_id: Unique identifier for the pattern (e.g. ``"P-001"``).
+        name: Human-readable short name.
+        level: Hierarchical level — one of ``chunk``, ``section``, or
+            ``document``.
+        context: The situation in which this pattern typically occurs.
+        problem: The problem or need that motivates the pattern.
+        solution: How the pattern resolves the problem.
+        example: A concrete usage example.
+        sources: List of provenance records, each a dict with at least a
+            ``file`` key.
+        subpatterns: IDs of lower-level patterns contained within this one.
+        superpattern: ID of the enclosing parent pattern, if any.
+        related_patterns: IDs of semantically related patterns.
+        info_type: Information type classification (e.g. ``"procedure"``,
+            ``"concept"``).
+        frequency: Number of times the pattern was observed in the corpus.
+
+    Example:
+        >>> p = Pattern("P-001", "Install Software", "chunk",
+        ...             "User needs a package", "Package not installed",
+        ...             "Run apt-get install", "apt-get install vim",
+        ...             [{"file": "guide.md"}])
+        >>> p.to_dict()["id"]
+        'P-001'
+    """
+
     def __init__(
         self,
         pattern_id: str,
@@ -16,26 +58,8 @@ class Pattern:
         superpattern: Optional[str] = None,
         related_patterns: Optional[List[str]] = None,
         info_type: Optional[str] = None,
-        frequency: Optional[int] = None
-    ):
-        """
-        Represents a reusable pattern extracted from documents.
-
-        Args:
-            pattern_id (str): Unique identifier for the pattern.
-            name (str): Human-readable name of the pattern.
-            level (str): Hierarchical level (chunk, section, document, etc.).
-            context (str): The situation in which this pattern appears.
-            problem (str): The problem this pattern addresses.
-            solution (str): How the pattern solves the problem.
-            example (str): An example usage of the pattern.
-            sources (List[Dict[str, str]]): Locations where the pattern was found.
-            subpatterns (List[str], optional): IDs of patterns this one contains.
-            superpattern (str, optional): ID of the parent pattern.
-            related_patterns (List[str], optional): IDs of semantically related patterns.
-            info_type (str, optional): Information type (procedure, concept, etc.).
-            frequency (int, optional): Number of times the pattern was detected.
-        """
+        frequency: Optional[int] = None,
+    ) -> None:
         self.pattern_id = pattern_id
         self.name = name
         self.level = level
@@ -44,18 +68,20 @@ class Pattern:
         self.solution = solution
         self.example = example
         self.sources = sources
-        self.subpatterns = subpatterns or []
+        self.subpatterns: List[str] = subpatterns or []
         self.superpattern = superpattern
-        self.related_patterns = related_patterns or []
+        self.related_patterns: List[str] = related_patterns or []
         self.info_type = info_type
         self.frequency = frequency
 
-    def to_dict(self) -> Dict:
-        """
-        Convert the Pattern object to a dictionary.
+    def to_dict(self) -> Dict[str, Any]:
+        """Serialise the pattern to a plain dictionary.
+
+        The returned dict includes a ``$schema`` reference so that YAML
+        files written from this object remain self-describing.
 
         Returns:
-            Dict: Dictionary representation of the pattern.
+            A dictionary suitable for YAML or JSON serialisation.
         """
         return {
             "$schema": "./pattern-schema.json",
@@ -71,5 +97,11 @@ class Pattern:
             "superpattern": self.superpattern,
             "related_patterns": self.related_patterns,
             "info_type": self.info_type,
-            "frequency": self.frequency
+            "frequency": self.frequency,
         }
+
+    def __repr__(self) -> str:
+        return (
+            f"Pattern(id={self.pattern_id!r}, name={self.name!r}, "
+            f"level={self.level!r})"
+        )

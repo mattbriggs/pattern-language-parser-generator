@@ -1,16 +1,24 @@
+"""Progress-bar helpers backed by ``tqdm``."""
+
+from __future__ import annotations
+
 from typing import Iterable, Iterator
+
 from tqdm import tqdm
 
 
 def show_progress(items: Iterable, description: str = "Processing") -> Iterator:
-    """
-    Wrap an iterable with a progress bar using tqdm.
+    """Wrap an iterable with a ``tqdm`` progress bar.
 
     Args:
-        items (Iterable): The iterable to wrap.
-        description (str): Description displayed with the progress bar.
+        items: Any iterable to wrap.
+        description: Short label displayed to the left of the progress bar.
 
     Returns:
-        Iterator: Wrapped iterable with a progress bar.
+        A ``tqdm``-wrapped iterator that displays progress to the terminal.
+
+    Example:
+        >>> for item in show_progress(range(10), "Counting"):
+        ...     pass
     """
     return tqdm(items, desc=description, unit="item")

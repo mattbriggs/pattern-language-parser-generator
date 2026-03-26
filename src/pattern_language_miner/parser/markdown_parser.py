@@ -1,22 +1,40 @@
-from .base_parser import BaseParser
+"""Markdown document parser."""
+
 import markdown
 from bs4 import BeautifulSoup
 
+from .base_parser import BaseParser
+
 
 class MarkdownParser(BaseParser):
+    """Convert Markdown files to an HTML representation via BeautifulSoup.
+
+    The parser converts Markdown syntax to HTML using the ``markdown``
+    library, then normalises it with BeautifulSoup before returning the
+    result.
+
+    Example:
+        >>> parser = MarkdownParser()
+        >>> result = parser.parse("# Hello")
+        >>> result["type"]
+        'markdown'
+    """
+
     def parse(self, content: str) -> dict:
-        """
-        Parses Markdown content by converting it to HTML and then parsing the HTML.
+        """Convert Markdown content to a normalised HTML string.
 
         Args:
-            content (str): The raw Markdown content.
+            content: Raw Markdown source text.
 
         Returns:
-            dict: A dictionary containing the type and parsed HTML content.
+            A dictionary with keys:
+
+            - ``type`` (*str*): Always ``"markdown"``.
+            - ``html`` (*str*): The rendered, normalised HTML string.
         """
         html = markdown.markdown(content)
         soup = BeautifulSoup(html, "html.parser")
         return {
             "type": "markdown",
-            "html": str(soup)
+            "html": str(soup),
         }

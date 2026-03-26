@@ -1,91 +1,153 @@
-import os
-import re
+"""Natural-language sentence generator for pattern YAML files.
+
+Converts structured YAML patterns into human-readable sentences using a
+simple grammar template, and writes the result in text, Markdown, or HTML
+format.
+"""
+
+from __future__ import annotations
+
 import logging
-import yaml
 from pathlib import Path
-from typing import List, Dict
+from typing import Dict, List
+
+import yaml
+
+logger = logging.getLogger(__name__)
+
+#: Output formats supported by :class:`SentenceGenerator`.
+SUPPORTED_FORMATS: frozenset[str] = frozenset({"markdown", "html", "text"})
 
 
 class SentenceGenerator:
-    """
-    Generate sentences from YAML pattern files using a grammar-based template.
+    """Convert YAML pattern files into formatted, human-readable sentences.
+
+    The generator applies a simple grammar template of the form::
+
+        To <solution> in the context of <context>, use <solution>.
+        For example, <example>.
+
+    Output can be written as plain text, Markdown numbered lists, or an
+    HTML unordered list.
+
+    Args:
+        input_dir: Directory containing ``*.yaml`` pattern files.
+        output_path: File path where the formatted output is written.
+        format_: Output format — one of ``"text"``, ``"markdown"``,
+            or ``"html"``.
+
+    Raises:
+        ValueError: If *format_* is not in :data:`SUPPORTED_FORMATS`.
+
+    Example:
+        >>> gen = SentenceGenerator("./enriched", "./output.md", "markdown")
+        >>> gen.run()
     """
 
-    def __init__(self, input_dir: str, output_path: str, format_: str = "markdown"):
+    def __init__(
+        self,
+        input_dir: str | Path,
+        output_path: str | Path,
+        format_: str = "markdown",
+    ) -> None:
         self.input_dir = Path(input_dir)
         self.output_path = Path(output_path)
         self.format = format_.lower()
-        self.supported_formats = {"markdown", "html", "text"}
 
-        if self.format not in self.supported_formats:
+        if self.format not in SUPPORTED_FORMATS:
             raise ValueError(
-                f"Unsupported format '{self.format}'. "
-                f"Choose from: {', '.join(self.supported_formats)}"
+                f"Unsupported format {self.format!r}. "
+                f"Choose from: {', '.join(sorted(SUPPORTED_FORMATS))}"
             )
 
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
+
+    def run(self) -> None:
+        """Execute the full sentence-generation pipeline.
+
+        Loads patterns, generates sentences, formats them, and writes
+        the result to :attr:`output_path`.
+        """
+        logger.info("Loading patterns from %s.", self.input_dir)
+        patterns = self.load_patterns()
+        if not patterns:
+            logger.warning("No patterns found in %s.", self.input_dir)
+            return
+
+        logger.info("Generating %d sentence(s).", len(patterns))
+        sentences = [self.generate_sentence(p) for p in patterns]
+        formatted = self.format_sentences(sentences)
+        self.write_output(formatted)
+
     def load_patterns(self) -> List[Dict]:
+        """Load all ``*.yaml`` pattern files from :attr:`input_dir`.
+
+        Returns:
+            A list of non-empty pattern dictionaries.
         """
-        Load all YAML pattern files from the input directory.
-        """
-        patterns = []
+        patterns: List[Dict] = []
         for file_path in sorted(self.input_dir.glob("*.yaml")):
             try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    pattern = yaml.safe_load(f)
-                    if pattern:
-                        patterns.append(pattern)
-            except Exception as e:
-                logging.warning(f"Could not parse {file_path.name}: {e}")
+                with file_path.open("r", encoding="utf-8") as fh:
+                    pattern = yaml.safe_load(fh)
+                if pattern:
+                    patterns.append(pattern)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("Could not parse %s: %s", file_path.name, exc)
         return patterns
 
     def generate_sentence(self, pattern: Dict) -> str:
-        """
-        Apply the grammar template to a single pattern dictionary.
+        """Apply the grammar template to a single pattern dictionary.
+
+        Args:
+            pattern: A pattern dictionary with optional keys ``solution``,
+                ``context``, and ``example``.
+
+        Returns:
+            A single formatted sentence string.
         """
         solution = pattern.get("solution", "solve the problem")
         context = pattern.get("context", "a general scenario")
         example = pattern.get("example", "no example provided")
-
         return (
             f"To {solution} in the context of {context}, use {solution}. "
             f"For example, {example}."
         )
 
     def format_sentences(self, sentences: List[str]) -> str:
-        """
-        Format a list of sentences in the requested output format.
+        """Format a list of sentences in the configured output format.
+
+        Args:
+            sentences: Plain-text sentences to format.
+
+        Returns:
+            A single formatted string ready to be written to a file.
         """
         if self.format == "markdown":
-            return "\n\n".join(f"{i+1}. {s}" for i, s in enumerate(sentences))
-        elif self.format == "html":
-            items = "".join(f"<li>{s}</li>" for s in sentences)
-            return f"<ul data-type='generated-patterns'>\n{items}\n</ul>"
-        elif self.format == "text":
-            return "\n".join(sentences)
-        return ""
+            return "\n\n".join(
+                f"{i + 1}. {s}" for i, s in enumerate(sentences)
+            )
+        if self.format == "html":
+            items = "".join(f"<li>{s}</li>\n" for s in sentences)
+            return f"<ul data-type='generated-patterns'>\n{items}</ul>"
+        # Plain text fallback
+        return "\n".join(sentences)
 
     def write_output(self, content: str) -> None:
-        """
-        Write formatted sentences to the output file.
+        """Write *content* to :attr:`output_path`.
+
+        The parent directory is created automatically if it does not exist.
+
+        Args:
+            content: Formatted string content to write.
         """
         self.output_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.output_path, "w", encoding="utf-8") as f:
-            f.write(content)
-        logging.info(
-            f"✅ {len(content.splitlines())} sentence(s) written to {self.output_path} as {self.format.upper()}."
+        self.output_path.write_text(content, encoding="utf-8")
+        logger.info(
+            "Wrote %d line(s) to %s as %s.",
+            len(content.splitlines()),
+            self.output_path,
+            self.format.upper(),
         )
-
-    def run(self) -> None:
-        """
-        Execute the full sentence generation pipeline.
-        """
-        logging.info("📄 Loading patterns...")
-        patterns = self.load_patterns()
-        if not patterns:
-            logging.warning("⚠️ No patterns found.")
-            return
-
-        logging.info(f"🧠 Generating {len(patterns)} sentence(s)...")
-        sentences = [self.generate_sentence(p) for p in patterns]
-        formatted = self.format_sentences(sentences)
-        self.write_output(formatted)

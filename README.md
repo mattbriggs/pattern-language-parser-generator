@@ -1,65 +1,133 @@
 # Pattern Language Miner
 
-The **Pattern Language Miner** is a modular Python application designed to **extract**, **structure**, **generate**, and **catalog** recurring content patterns from Markdown, HTML, and plain text documents. It applies NLP techniques and semantic clustering to build a reusable and machine-readable knowledge base that supports documentation reuse, authoring automation, and AI optimization.
+A modular Python tool that automatically extracts, enriches, clusters, and exports reusable content patterns from Markdown, HTML, and plain-text document corpora.
+
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+
+---
 
 ## Purpose
 
-The Pattern Language Miner enables a corpus-driven approach to pattern discovery and synthesis. It automates the creation of reusable content units by identifying patterns based on:
+Pattern Language Miner enables a corpus-driven approach to pattern discovery and synthesis. It automates the creation of reusable content units by identifying patterns based on:
 
-- **Lexical Recurrence** (frequent phrasing)
-- **Semantic Similarity** (conceptual proximity)
-- **Information Typing** (procedural, conceptual, reference, etc.)
-- **Generative Output** (natural language summaries)
+- **Lexical Recurrence** — frequent phrasing detected via configurable n-gram analysis
+- **Semantic Similarity** — conceptual proximity measured with sentence embeddings
+- **Information Typing** — procedural, conceptual, reference content classification
+- **Generative Output** — natural-language sentence synthesis from structured YAML
 
-It is inspired by:
+Inspired by Christopher Alexander's *A Pattern Language* and Robert E. Horn's *Information Mapping*.
 
-- Christopher Alexander's *Pattern Language*
-- Robert E. Horn's *Information Mapping*
-- NLP and discourse modeling practices
+---
 
 ## Capabilities
 
-| Capability   | Description                                                                 |
-|--------------|-----------------------------------------------------------------------------|
-| Extract      | Identify frequent lexical patterns using configurable n-gram and POS filters |
-| Enrich       | Automatically infer metadata (title, summary, keywords, problem)             |
-| Cluster      | Group similar patterns using vector embeddings and clustering                |
-| Generate     | Convert structured YAML into human-readable sentences or HTML                |
-| Export       | Produce graph views (Mermaid, GraphML, Neo4j Cypher)                         |
+| Capability | Description |
+|---|---|
+| **Extract** | Identify frequent lexical patterns using configurable n-gram and POS filters |
+| **Enrich** | Automatically infer metadata (title, summary, keywords, problem) |
+| **Cluster** | Group similar patterns using vector embeddings, KMeans, and UMAP |
+| **Generate** | Convert structured YAML into human-readable sentences or HTML |
+| **Export** | Produce knowledge graphs (Mermaid, GraphML, Neo4j Cypher, JSON) |
 
-## Key Use Cases
+---
 
-- Build a structured pattern library from documentation
-- Prepare reusable training or reference content
-- Analyze phrasing across a content corpus
-- Generate summaries for publication, training, or onboarding
-- Feed AI systems (e.g., RAG or LLM-based copilots) with structured patterns
+## Quick Start
+
+```bash
+# Install
+git clone https://github.com/your-org/pattern-language-miner.git
+cd pattern-language-miner
+python -m venv ENV && source ENV/bin/activate
+pip install -e ".[dev]"
+python setup_resources.py
+
+# Run the pipeline
+pattern-miner analyze    --config config.yaml --input-dir ./docs --output-dir ./raw
+pattern-miner enrich     --input-dir ./raw    --output-dir ./enriched
+pattern-miner cluster    --input-dir ./enriched --output-dir ./clusters
+pattern-miner generate-sentences --input-dir ./enriched --output-path ./output.md --format markdown
+pattern-miner export-graph --input-json ./clusters/clustered_patterns.json --output-path ./graph.mmd --format mermaid
+```
+
+---
+
+## Pipeline Overview
+
+```
+Raw Documents (txt / md / html)
+    ↓  [Parser Factory]
+    ↓  [Pattern Extractor]  — NLTK n-grams
+Raw Patterns (YAML)
+    ↓  [Pattern Enricher]   — title · summary · keywords · problem
+Enriched Patterns (YAML)
+    ├→  [Pattern Clusterer]  — SentenceTransformer · KMeans · UMAP
+    ├→  [Sentence Generator] — text / Markdown / HTML
+    └→  [Graph Exporter]     — GraphML · Mermaid · Neo4j · JSON
+```
+
+---
+
+## Project Structure
+
+```
+src/pattern_language_miner/
+├── cli.py               # Click CLI entry-point
+├── walker.py            # Directory walker + parser factory
+├── parser/              # BaseParser + Text/Markdown/HTML implementations
+├── extractor/           # N-gram extraction + semantic sentence clustering
+├── enricher/            # Metadata inference
+├── cluster/             # KMeans + UMAP semantic clustering
+├── generator/           # Natural-language sentence generation
+├── graph/               # Knowledge-graph export
+├── writer/              # YAML file writer
+├── vector_store/        # Weaviate adapter (optional)
+├── pipeline/            # Pipeline orchestrator + event bus
+├── patterns/            # Core Pattern data class
+├── utils/               # Config validation, logging, progress
+└── schema/              # JSON Schema files
+```
+
+---
 
 ## Documentation
 
-- [Set up and installation of the Pattern Language Miner](docs/set-up-and-installation.md)
-- [Configuration File Reference (`config.yml`)](docs/configuration-file-reference.md)
-- [How-To Manual](docs/application-guide.md)
-- [Corpus-Driven Design Overview](docs/application-design.md)
-- [Workflow](docs/workflow.md)
-- [Docker and Weaviate Integration](docs/instructions_for_docker.md)
-- [Troubleshooting](docs/troubleshooting.md)
+Full documentation is available at the project docs site (served via `mkdocs serve`):
 
-## Architecture Overview
+```bash
+pip install -e ".[docs]"
+mkdocs serve
+```
 
-Pattern Language Miner follows a modular architecture:
+Documentation includes:
 
-- **Parser Layer** - Supports `.txt`, `.md`, and `.html` files
-- **Pattern Extractor** - Uses NLTK for lexical pattern detection
-- **Semantic Clusterer** - Embeds patterns with sentence-transformers and clusters using UMAP and KMeans
-- **Enricher** - Adds normalized metadata fields like title, problem, and keywords
-- **Sentence Generator** - Converts YAML into publishable content
-- **Graph Exporter** - Builds graph views in Mermaid, GraphML, or Neo4j Cypher formats
-- **CLI Interface** - Provides subcommands for each functional module
-- **Weaviate Integration (optional)** - Enables persistent semantic search over patterns
+- **User Guide** — installation, quick start, commands, configuration, workflows, troubleshooting
+- **Reference** — CLI reference, configuration reference, Docker/Weaviate guide
+- **Design** — architecture diagrams, design patterns catalogue
+- **SRS** — Software Requirements Specification with full UML diagrams
+- **Changelog** and **Roadmap**
 
-Read more in the [Corpus-Driven Pattern Extraction and Generation Tool](docs/application-design.md).
+---
+
+## Development
+
+```bash
+# Run tests
+pytest tests/ -v
+
+# Run tests with coverage
+pytest tests/ --cov=src/pattern_language_miner --cov-report=term-missing
+
+# Lint
+ruff check src/ tests/
+
+# Format
+black src/ tests/
+isort src/ tests/
+```
+
+---
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+MIT License — see [LICENSE](LICENSE).
